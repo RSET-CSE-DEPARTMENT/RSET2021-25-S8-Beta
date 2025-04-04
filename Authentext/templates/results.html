@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis Results - AuthenText</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #0D99FF;
+            --primary-hover: #0A7ACC;
+            --primary-light: #E6F4FF;
+            --success-color: #0D99FF;
+            --danger-color: #FF4D4F;
+            --text-primary: #1A1A1A;
+            --text-secondary: #4D4D4D;
+            --bg-primary: #FFFFFF;
+            --bg-secondary: #F7F7F7;
+            --bg-tertiary: #FFFFFF;
+            --border-color: #E6E6E6;
+            --card-bg: #FFFFFF;
+            --input-bg: #FFFFFF;
+            --input-border: #E6E6E6;
+            --input-focus-border: #0D99FF;
+            --shadow-color: rgba(0, 0, 0, 0.05);
+            --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        /* Add animation keyframes */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(-20px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: var(--font-primary);
+        }
+
+        body {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: var(--bg-primary);
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+            background-color: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 1px 2px var(--shadow-color);
+        }
+
+        .navbar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 1rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: var(--text-primary);
+            padding: 0.5rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .logo:hover {
+            background-color: var(--bg-secondary);
+        }
+
+        .logo i {
+            font-size: 1.75rem;
+            color: var(--primary-color);
+        }
+
+        .logo h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .return-button {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 4px rgba(13, 153, 255, 0.1);
+        }
+
+        .return-button:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(13, 153, 255, 0.2);
+        }
+
+        .return-button i {
+            font-size: 1.1rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.75rem 1.25rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .nav-link i {
+            font-size: 1.1rem;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color);
+            background-color: var(--primary-light);
+            transform: translateY(-1px);
+        }
+
+        .nav-link.active {
+            color: var(--primary-color);
+            background-color: var(--primary-light);
+            font-weight: 600;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .nav-button {
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-button.primary {
+            background: var(--primary-color);
+            color: var(--bg-primary);
+            border: none;
+        }
+
+        .nav-button.primary:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        .nav-button.secondary {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .nav-button.secondary:hover {
+            background: var(--bg-tertiary);
+            transform: translateY(-1px);
+        }
+
+        .main-content {
+            max-width: 1000px;
+            margin: 6rem auto 2rem;
+            padding: 0 2rem;
+        }
+
+        .results-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .results-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            letter-spacing: -0.5px;
+        }
+
+        .results-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .result-card {
+            background: var(--bg-tertiary);
+            border-radius: 12px;
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 2px 4px var(--shadow-color);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .result-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px var(--shadow-color);
+        }
+
+        .result-icon {
+            font-size: 2rem;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .result-icon.ai {
+            color: var(--primary-color);
+            background: var(--primary-light);
+        }
+
+        .result-icon.human {
+            color: var(--success-color);
+            background: var(--primary-light);
+        }
+
+        .result-info h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .result-info p {
+            color: var(--text-secondary);
+            margin: 0;
+            font-size: 1rem;
+        }
+
+        .confidence-card {
+            text-align: center;
+            background: var(--bg-tertiary);
+            border-radius: 12px;
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 2px 4px var(--shadow-color);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .confidence-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px var(--shadow-color);
+        }
+
+        .prediction-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .probability-details {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .probability-item {
+            text-align: center;
+            flex: 1;
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            margin: 0 0.5rem;
+        }
+
+        .probability-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .probability-label {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .probability-bar {
+            height: 6px;
+            background: var(--bg-primary);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+
+        .probability-fill {
+            height: 100%;
+            background: var(--primary-color);
+            transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .text-preview {
+            background: var(--bg-tertiary);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 2px 4px var(--shadow-color);
+        }
+
+        .text-preview h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .text-preview h3 i {
+            color: var(--primary-color);
+        }
+
+        .preview-content {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.6;
+            min-height: 400px;
+            padding: 1.5rem;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            overflow: visible;
+        }
+
+        .preview-content:hover {
+            box-shadow: 0 2px 4px var(--shadow-color);
+        }
+
+        .text-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .loading {
+            display: none;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        .humanize-button {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 4px rgba(13, 153, 255, 0.1);
+            border: none;
+            cursor: pointer;
+        }
+
+        .humanize-button:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(13, 153, 255, 0.2);
+        }
+
+        .humanize-button i {
+            font-size: 1.1rem;
+        }
+
+        .explanation-section {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-top: 2rem;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 2px 4px var(--shadow-color);
+        }
+
+        .explanation-header {
+            background: var(--bg-primary);
+            padding: 1.25rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border-color);
+            border-radius: 8px 8px 0 0;
+        }
+
+        .explanation-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 1rem;
+        }
+
+        .explanation-title i {
+            color: var(--primary-color);
+        }
+
+        .explanation-controls {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .control-btn {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .control-btn:hover {
+            background: var(--primary-light);
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .explanation-frame-container {
+            padding: 1.5rem;
+            background: var(--bg-primary);
+        }
+
+        .explanation-frame {
+            width: 100%;
+            height: 800px;
+            border: none;
+            border-radius: 8px;
+            background: var(--bg-tertiary);
+            transition: height 0.3s ease;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 2px 4px var(--shadow-color);
+        }
+
+        /* Custom styles for the explanation frame content */
+        .explanation-frame body {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            font-size: 14px;
+            line-height: 1.6;
+            padding: 1rem;
+        }
+
+        .explanation-frame h1 {
+            color: var(--primary-color);
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .explanation-frame h2 {
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            margin: 1.5rem 0 1rem;
+            font-weight: 600;
+        }
+
+        .explanation-frame p {
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .explanation-frame ul {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        .explanation-frame li {
+            margin-bottom: 0.5rem;
+        }
+
+        .explanation-frame table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .explanation-frame th,
+        .explanation-frame td {
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            text-align: left;
+            color: var(--text-secondary);
+        }
+
+        .explanation-frame th {
+            background: var(--bg-secondary);
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .explanation-frame tr:nth-child(even) {
+            background: var(--bg-secondary);
+        }
+
+        .explanation-frame code {
+            background: var(--bg-secondary);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9em;
+            color: var(--text-primary);
+        }
+
+        .explanation-frame pre {
+            background: var(--bg-secondary);
+            padding: 1rem;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin: 1rem 0;
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 0.75rem 1rem;
+            }
+
+            .return-button {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            .logo h1 {
+                font-size: 1.25rem;
+            }
+
+            .logo i {
+                font-size: 1.5rem;
+            }
+
+            .main-content {
+                padding: 0 1rem;
+            }
+
+            .results-header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-content">
+            <a href="/" class="logo">
+                <i class="fas fa-robot"></i>
+                <h1>AuthenText</h1>
+            </a>
+            <a href="/" class="return-button">
+                <i class="fas fa-arrow-left"></i>
+                Return to Home
+            </a>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <div class="results-header">
+            <h1>Analysis Results</h1>
+            <p>Detailed analysis of your text with confidence scores and explanations</p>
+        </div>
+
+        <div class="results-grid">
+            <div class="result-card">
+                <div class="result-icon">
+                    <i id="resultIcon" class="fas"></i>
+                </div>
+                <div class="result-info">
+                    <h3>Analysis Result</h3>
+                    <p id="resultText"></p>
+                </div>
+            </div>
+
+            <div class="confidence-card">
+                <div class="prediction-title">Prediction Probabilities</div>
+                <div class="probability-details">
+                    <div class="probability-item">
+                        <div class="probability-value" id="humanProbability"></div>
+                        <div class="probability-label">Human</div>
+                        <div class="probability-bar">
+                            <div class="probability-fill" id="humanProbabilityFill"></div>
+                        </div>
+                    </div>
+                    <div class="probability-item">
+                        <div class="probability-value" id="aiProbability"></div>
+                        <div class="probability-label">AI</div>
+                        <div class="probability-bar">
+                            <div class="probability-fill" id="aiProbabilityFill"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-preview">
+            <h3>
+                <i class="fas fa-file-alt"></i>
+                Analyzed Text
+            </h3>
+            <div class="preview-content" id="analyzedText"></div>
+            <div class="text-actions">
+                <a href="#" class="humanize-button" id="humanizeButton" onclick="redirectToHumanize(event)">
+                    <i class="fas fa-magic"></i>
+                    Humanize Text
+                </a>
+            </div>
+        </div>
+
+        <div class="explanation-section">
+            <div class="explanation-header">
+                <div class="explanation-title">
+                    <i class="fas fa-info-circle"></i>
+                    Detailed Explanation
+                </div>
+                <div class="explanation-controls">
+                    <button class="control-btn" onclick="toggleExplanationSize()" title="Toggle size">
+                        <i class="fas fa-expand"></i>
+                    </button>
+                    <button class="control-btn" onclick="refreshExplanation()" title="Refresh">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="explanation-frame-container">
+                <iframe id="explanationFrame" class="explanation-frame"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const text = decodeURIComponent(urlParams.get('text'));
+        const isAi = parseInt(urlParams.get('is_ai'));
+        const prediction = parseFloat(urlParams.get('prediction'));
+        const explanationPath = decodeURIComponent(urlParams.get('explanation_path'));
+
+        // Update UI with results
+        const resultIcon = document.getElementById('resultIcon');
+        resultIcon.className = `fas ${isAi === 1 ? 'fa-robot ai' : 'fa-user human'}`;
+        document.getElementById('resultText').textContent = 
+            isAi === 1 ? 'This text was likely written by AI' : 'This text was likely written by a human';
+        
+        // Update probability details
+        const humanProb = ((1 - prediction) * 100).toFixed(2);
+        const aiProb = (prediction * 100).toFixed(2);
+        document.getElementById('humanProbability').textContent = `${humanProb}%`;
+        document.getElementById('aiProbability').textContent = `${aiProb}%`;
+        document.getElementById('humanProbabilityFill').style.width = `${humanProb}%`;
+        document.getElementById('aiProbabilityFill').style.width = `${aiProb}%`;
+        
+        document.getElementById('analyzedText').textContent = text;
+        document.getElementById('explanationFrame').src = explanationPath;
+
+        function redirectToHumanize(event) {
+            event.preventDefault();
+            const analyzedText = document.getElementById('analyzedText').textContent;
+            const redirectUrl = `/humanize_page?text=${encodeURIComponent(analyzedText)}`;
+            window.location.href = redirectUrl;
+        }
+
+        let isExpanded = false;
+
+        function toggleExplanationSize() {
+            isExpanded = !isExpanded;
+            const frame = document.getElementById('explanationFrame');
+            frame.style.height = isExpanded ? '1200px' : '800px';
+            frame.style.transition = 'height 0.3s ease';
+        }
+
+        function refreshExplanation() {
+            const frame = document.getElementById('explanationFrame');
+            const currentSrc = frame.src;
+            frame.src = '';
+            frame.src = currentSrc;
+        }
+    </script>
+</body>
+</html> 
