@@ -1,0 +1,149 @@
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Schedule Optimization Dashboard</title>
+        <style>
+            body { font-family: Arial, sans-serif; margin: 20px; }
+            .dashboard { max-width: 1200px; margin: 0 auto; }
+            .header { text-align: center; margin-bottom: 30px; }
+            .metrics { display: flex; justify-content: space-between; margin-bottom: 20px; }
+            .metric-card { background-color: #f5f5f5; padding: 15px; border-radius: 8px; width: 23%; }
+            .metric-value { font-size: 24px; font-weight: bold; color: #2c3e50; }
+            .metric-title { font-size: 14px; color: #7f8c8d; }
+            .chart-container { margin-bottom: 30px; }
+            h2 { color: #34495e; }
+            table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+            th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+            th { background-color: #f2f2f2; }
+            tr:nth-child(even) { background-color: #f9f9f9; }
+        </style>
+    </head>
+    <body>
+        <div class="dashboard">
+            <div class="header">
+                <h1>Schedule Optimization Dashboard</h1>
+                <p>Analysis of bus schedule optimization results</p>
+            </div>
+            
+            <div class="metrics">
+    
+                <div class="metric-card">
+                    <div class="metric-value">45</div>
+                    <div class="metric-title">Schedules Analyzed</div>
+                </div>
+        
+                <div class="metric-card">
+                    <div class="metric-value">0.4053</div>
+                    <div class="metric-title">Best Fitness Score</div>
+                </div>
+        
+                <div class="metric-card">
+                    <div class="metric-value">0.4275</div>
+                    <div class="metric-title">Avg Fitness Score</div>
+                </div>
+        
+                <div class="metric-card">
+                    <div class="metric-value">3</div>
+                    <div class="metric-title">Bus Configurations</div>
+                </div>
+        
+            </div>
+            
+            <div class="chart-container">
+                <h2>Available Visualizations</h2>
+                <ul>
+                    <li><a href="fitness_evolution.png" target="_blank">Fitness Evolution Chart</a></li>
+                    <li><a href="metrics_comparison.png" target="_blank">Metrics Comparison</a></li>
+                    <li><a href="fitness_components.png" target="_blank">Fitness Components Analysis</a></li>
+                    <li><a href="best_solutions_visualization.png" target="_blank">Best Solutions Visualization</a></li>
+                    <li><a href="time_series_analysis.png" target="_blank">Time Series Analysis</a></li>
+                </ul>
+            </div>
+            
+            <div class="chart-container">
+                <h2>Best Solutions by Bus Configuration</h2>
+                <table>
+                    <tr>
+                        <th>Buses</th>
+                        <th>Best Fitness</th>
+                        <th>Generation</th>
+                        <th>Avg Trips/Bus</th>
+                        <th>Efficiency</th>
+                        <th>Overlaps</th>
+                    </tr>
+    
+                    <tr>
+                        <td>600</td>
+                        <td>0.4053</td>
+                        <td>10</td>
+                        <td>9.06</td>
+                        <td>14.84</td>
+                        <td>1087</td>
+                    </tr>
+        
+                    <tr>
+                        <td>800</td>
+                        <td>0.4152</td>
+                        <td>13</td>
+                        <td>6.80</td>
+                        <td>23.17</td>
+                        <td>702</td>
+                    </tr>
+        
+                    <tr>
+                        <td>1000</td>
+                        <td>0.4291</td>
+                        <td>10</td>
+                        <td>5.44</td>
+                        <td>19.04</td>
+                        <td>483</td>
+                    </tr>
+        
+                </table>
+            </div>
+            
+            <div class="chart-container">
+                <h2>Statistics by Bus Configuration</h2>
+                <table>
+                    <tr>
+                        <th>Buses</th>
+                        <th>Avg Fitness</th>
+                        <th>Min Fitness</th>
+                        <th>Max Fitness</th>
+                        <th>Std Dev</th>
+                    </tr>
+    
+                    <tr>
+                        <td>    600.0
+Name: 0, dtype: float64</td>
+                        <td>0.4125</td>
+                        <td>0.4053</td>
+                        <td>0.5135</td>
+                        <td>0.0280</td>
+                    </tr>
+        
+                    <tr>
+                        <td>    800.0
+Name: 1, dtype: float64</td>
+                        <td>0.4307</td>
+                        <td>0.4152</td>
+                        <td>0.5530</td>
+                        <td>0.0350</td>
+                    </tr>
+        
+                    <tr>
+                        <td>    1000.0
+Name: 2, dtype: float64</td>
+                        <td>0.4393</td>
+                        <td>0.4291</td>
+                        <td>0.5782</td>
+                        <td>0.0384</td>
+                    </tr>
+        
+                </table>
+            </div>
+        </div>
+    </body>
+    </html>
+    
