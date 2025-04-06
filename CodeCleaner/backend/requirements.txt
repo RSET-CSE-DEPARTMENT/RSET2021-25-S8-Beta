@@ -1,0 +1,14 @@
+# Web framework for building APIs
+fastapi==0.115.12  
+
+# Core dependencies
+nltk==3.9.1       # Natural Language Toolkit for text processing
+tqdm==4.66.5      # Progress bar library for loops and tasks
+pydantic==2.11.2  # Data validation and settings management library
+
+# Models
+#ollama==0.4.7  # Local AI model runner and management tool
+openai==1.70.0  # OpenAI API client for interacting with GPT and other models
+
+# BLEU score calculation for evaluating machine translation
+sacrebleu==2.5.1  
