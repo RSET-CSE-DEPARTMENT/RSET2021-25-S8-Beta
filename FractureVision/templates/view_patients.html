@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Patients</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0097a7, #203a43);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #ffffff;
+        }
+
+        .container {
+            background: rgba(30, 30, 30, 0.85);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            width: 90%;
+            max-width: 1200px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .container:hover {
+            transform: scale(1.02);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+        }
+
+        .container h1 {
+            font-size: 30px;
+            margin-bottom: 20px;
+            color: #00d4ff;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #00bcd4;
+            color: #1e1e1e;
+            font-size: 18px;
+        }
+
+        td {
+            background-color: rgba(255, 255, 255, 0.1);
+            font-size: 16px;
+        }
+
+        /* Table borders */
+        table, th, td {
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* Links */
+        a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: slateblue;
+        }
+
+        /* Buttons */
+        button {
+            padding: 10px 14px;
+            background-color: #00d4ff;
+            border: none;
+            border-radius: 6px;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin: 5px 0;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #0097a7;
+            transform: scale(1.05);
+        }
+
+        /* Actions Column - Stacked Buttons */
+        .actions {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Back button */
+        .back-btn-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .back-btn {
+            width: auto;
+            padding: 12px 20px;
+        }
+        .footer {
+            width: 100%;
+            background-color: #203a43;
+            padding: 10px;
+            text-align: center;
+            color: #f4f4f4;
+            position: absolute;
+            bottom: 0;
+        }
+
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Existing Patients</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Middle Name</th>
+                    <th>Last Name</th>
+                    <th>Gender</th>
+                    <th>Date of Birth</th>
+                    <th>Age</th>
+                    <th>Diagnosis</th>
+                    <th>CT Scan</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for patient in patients %}
+                <tr>
+                    <td>{{ patient.first_name }}</td>
+                    <td>{{ patient.middle_name }}</td>
+                    <td>{{ patient.last_name }}</td>
+                    <td>{{ patient.gender }}</td>
+                    <td>{{ patient.dob.strftime('%Y-%m-%d') }}</td>
+                    <td>{{ patient.age }}</td>
+                    <td>{{ patient.diagnosis }}</td>
+                    <td>
+                        <form action="{{ url_for('display', patient_id=patient.id, folder_type='Slices') }}" method="get">
+                            <button type="submit">View CT Scan</button>
+                        </form>
+                        <form action="{{ url_for('display', patient_id=patient.id, folder_type='Results') }}" method="get">
+                            <button type="submit">View Results</button>
+                        </form>
+                    </td>
+                    <td class="actions">
+                        <form action="{{ url_for('delete_patient', patient_id=patient.id) }}" method="post">
+                            <button type="submit">Delete</button>
+                        </form>
+                        <form action="{{ url_for('generate_report_route', patient_id=patient.id) }}" method="get" style="display:inline;">
+                            <button type="submit">Generate Report</button>
+                        </form>
+                        <form action="{{ url_for('detection', patient_id=patient.id) }}" method="get">
+                            <button type="submit">Detection</button>
+                        </form>
+                        <form action="{{ url_for('fused_detection', patient_id=patient.id) }}" method="get">
+                            <button type="submit">Fused Detection</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="back-btn-container">
+            <form action="{{ url_for('home') }}" method="get">
+                <button type="submit" class="back-btn">Back to Home</button>
+            </form>
+        </div>
+    </div>
+  <div class="footer">
+        &copy; 2025 Fracture Vision
+    </div>
+</body>
+</html>

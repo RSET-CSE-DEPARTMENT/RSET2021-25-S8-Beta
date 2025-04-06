@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <style>
+        /* General styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0097a7, #203a43);
+            color: #f4f4f4;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(30, 30, 30, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+        }
+
+        .header .title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #00d4ff;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .nav-buttons button {
+            padding: 12px 24px;
+            font-size: 18px;
+            background-color: #00d4ff;
+            border: none;
+            color: white;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+
+        .nav-buttons button:hover {
+            background-color: #008cbf;
+            transform: scale(1.08);
+        }
+
+        /* Main Content */
+        .content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            flex: 1;
+            padding: 50px 20px;
+            gap: 80px; /* More spacing */
+        }
+
+        .container {
+            background: rgba(30, 30, 30, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
+            padding: 50px;
+            width: 420px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .container:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+        }
+
+        .container h2 {
+            font-size: 26px;
+            color: #00d4ff;
+            margin-bottom: 30px;
+        }
+
+        .container button {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            margin-bottom: 20px;
+            background-color: #00d4ff;
+            color: white;
+            border: none;
+            font-size: 20px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+
+        .container button:hover {
+            background-color: #008cbf;
+            transform: scale(1.08);
+        }
+
+        /* New Section: Quick Tips */
+        .info-box {
+            background: rgba(30, 30, 30, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
+            padding: 40px;
+            width: 420px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .info-box:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+        }
+
+        .info-box h2 {
+            font-size: 24px;
+            color: #00d4ff;
+            margin-bottom: 20px;
+        }
+
+        .info-box p {
+            font-size: 18px;
+            color: #b0b0b0;
+            margin-bottom: 15px;
+        }
+
+        /* Flash Messages */
+        .flash-messages {
+            margin: 20px;
+            padding: 12px;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 18px;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #203a43;
+            padding: 15px;
+            text-align: center;
+            color: white;
+            width: 100%;
+            margin-top: auto;
+            border-radius: 8px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <div class="header">
+        <div class="title">Fracture Vision</div>
+        <div class="nav-buttons">
+            <form action="{{ url_for('home') }}" method="get">
+                <button type="submit">Home</button>
+            </form>
+            <form action="{{ url_for('logout') }}" method="get">
+                <button type="submit">Logout</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+        
+        <!-- Patient Options -->
+        <div class="container">
+            <h2>Patient Options</h2>
+            <form action="{{ url_for('add_patient') }}" method="get">
+                <button type="submit">Add New Patient</button>
+            </form>
+            <form action="{{ url_for('view_patients') }}" method="get">
+                <button type="submit">View Existing Patients</button>
+            </form>
+        </div>
+
+        <!-- Doctor's Details -->
+        <div class="container">
+            <h2>Welcome, {{ doctor_name }}!</h2>
+        </div>
+
+        <!-- Quick Tips Section -->
+        <div class="info-box">
+            <h2>🩺 Quick Tips</h2>
+            <p>🔹 Ensure high-quality images for accurate fracture detection.</p>
+            <p>🔹 Use Explainable AI insights for better analysis.</p>
+            <p>🔹 Always validate predictions with medical expertise.</p>
+        </div>
+
+    </div>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="flash-messages">
+                <ul>
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <!-- Footer -->
+    <div class="footer">
+        &copy; 2025 Fracture Vision
+    </div>
+
+</body>
+</html>

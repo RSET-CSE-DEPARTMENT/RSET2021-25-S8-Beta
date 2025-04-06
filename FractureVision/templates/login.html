@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Login - Fracture Vision</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        /* General reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Background styling */
+        body {
+            background: linear-gradient(135deg, #0097a7, #203a43);
+            display: flex;
+            flex-direction:column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #f4f4f4;
+        }
+        .header {
+            width: 100%;
+            background-color: #203a43;
+            padding: 20px;
+            text-align: center;
+            color: #f4f4f4;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        /* Login container styling */
+        .login-container {
+            background: rgba(30, 30, 30, 0.7);  /* Semi-transparent */
+    backdrop-filter: blur(10px);  /* Glass effect */
+    padding: 40px;
+    width: 100%;
+    max-width: 400px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+.input-container {
+    position: relative;
+    width: 100%;
+}
+        .login-container h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #0097a7;
+        }
+
+        .login-container p {
+            font-size: 14px;
+            color: #b0b0b0;
+            margin-bottom: 30px;
+        }
+
+        /* Input fields */
+        .input-container input {
+    width: 100%;
+    padding: 12px 16px 12px 40px;  /* Space for icon */
+    border: none;
+    border-radius: 5px;
+    background-color: #333;
+    color: #ffffff;
+    font-size: 16px;
+    outline: none;
+    margin-bottom: 15px;
+}
+
+.input-container i {
+    position: absolute;
+    left: 10px;
+    top: 35%;
+    transform: translateY(-50%);
+    color: #0097a7;
+}
+
+        .login-container input[type="text"]:focus,
+        .login-container input[type="password"]:focus {
+            background-color: #444;
+        }
+
+        /* Login button */
+        .login-container button {
+            width: 100%;
+    padding: 12px;
+    background: linear-gradient(45deg, #0097a7, #21a179);
+    border: none;
+    border-radius: 30px;
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 15px;
+        }
+
+        .login-container button:hover {
+           background: linear-gradient(45deg, #007a8a, #1c8b7c);
+    transform: scale(1.05);
+        }
+
+        /* Subtle glow effect  */
+        .login-container input[type="text"],
+        .login-container input[type="password"],
+        .login-container button {
+            box-shadow: 0 0 5px rgba(0, 188, 212, 0.5);
+        }
+
+        /* Flash message styling */
+        .flash-message {
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 5px;
+        }
+         .footer {
+            width: 100%;
+            background-color: #203a43;
+            padding: 10px;
+            text-align: center;
+            color: #f4f4f4;
+            position: absolute;
+            bottom: 0;
+        }
+      
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h1>FRACTURE VISION</h1>
+        <p>Sign in to access the system</p>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="flash-message">
+                    {{ messages[0] }}
+                </div>
+            {% endif %}
+        {% endwith %}
+        <form action="/" method="POST">
+            <div class="input-container">
+                    <i class="fas fa-user"></i>
+                    <input type="text" placeholder="Username" name="username" required>
+                </div>
+                <div class="input-container">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" placeholder="Password" name="password" required>
+                </div>
+                <button type="submit">Login</button>
+        </form>
+        <form action="/register" method="GET">
+            <button type="submit" class="register-button">Register</button>
+        </form>
+    </div>
+    <div class="footer">
+        &copy; 2025 Fracture Vision
+    </div>
+</body>
+</html>

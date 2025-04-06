@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Patient</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Background Styling */
+        body {
+            background: linear-gradient(135deg, #0097a7, #203a43);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Form Container */
+        .form-container {
+            background: rgba(30, 30, 30, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            width: 100%;
+            max-width: 380px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            text-align: center;
+            color: #ffffff;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .form-container:hover {
+            transform: scale(1.03);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+        }
+
+        .form-container h1 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #00d4ff;
+        }
+
+        .form-container p {
+            font-size: 16px;
+            color: #b0b0b0;
+            margin-bottom: 20px;
+        }
+
+        /* Input Fields */
+        .form-container input[type="text"],
+        .form-container input[type="date"],
+        .form-container input[type="file"],
+        .form-container textarea {
+            width: 100%;
+            padding: 10px 14px; /* Reduced padding */
+            margin: 8px 0; /* Less margin */
+            border: none;
+            border-radius: 6px;
+            background-color: #333;
+            color: #ffffff;
+            font-size: 17px;
+            outline: none;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .form-container input[type="text"]:focus,
+        .form-container input[type="date"]:focus,
+        .form-container textarea:focus {
+            background-color: #444;
+            transform: scale(1.02);
+        }
+
+        .form-container textarea {
+            height: 80px;
+            resize: none;
+        }
+
+        /* File Upload Styling */
+        .form-container input[type="file"] {
+            display: none;
+        }
+
+        .form-container label[for="file-upload"] {
+            display: inline-block;
+            width: 100%;
+            padding: 14px;
+            background-color: #4caf50;
+            border: none;
+            border-radius: 6px;
+            color: white;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .form-container label[for="file-upload"]:hover {
+            background-color: #45a049;
+            transform: scale(1.05);
+        }
+
+        /* Submit Button */
+        .form-container button {
+            width: 100%;
+            padding: 14px;
+            margin-top: 25px;
+            background-color: #00d4ff;
+            border: none;
+            border-radius: 6px;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .form-container button:hover {
+            background-color: #0097a7;
+            transform: scale(1.05);
+        }
+        .footer {
+            width: 100%;
+            background-color: #203a43;
+            padding: 10px;
+            text-align: center;
+            color: #f4f4f4;
+            position: absolute;
+            bottom: 0;
+        }
+
+
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <h1>Add Patient</h1>
+        <p>Fill in the details below to register a new patient</p>
+
+        <form action="{{ url_for('add_patient') }}" method="post" enctype="multipart/form-data">
+            <input type="text" placeholder="First Name" name="first_name" required>
+            <input type="text" placeholder="Middle Name" name="middle_name" required>
+            <input type="text" placeholder="Last Name" name="last_name" required>
+            <input type="text" placeholder="Gender" name="gender" required>
+            <input type="date" name="dob" required>
+            <textarea placeholder="Diagnosis" name="diagnosis" required></textarea>
+            
+            <label for="file-upload">📁 Upload CT Scan</label>
+            <input type="file" name="ct_scan" id="file-upload" accept=".nii,.nii.gz" required>
+
+            <button type="submit">Add Patient</button>
+        </form>
+    </div>
+  <div class="footer">
+        &copy; 2025 Fracture Vision
+    </div>
+</body>
+</html>

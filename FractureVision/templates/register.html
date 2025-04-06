@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Fracture Vision</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        /* General reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Background styling */
+        body {
+            background: linear-gradient(135deg, #0097a7, #203a43);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #f4f4f4;
+        }
+
+        .header {
+            width: 100%;
+            background-color: #203a43;
+            padding: 20px;
+            text-align: center;
+            color: #f4f4f4;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        /* Register container styling */
+        .register-container {
+            background: rgba(30, 30, 30, 0.7); /* Semi-transparent */
+            backdrop-filter: blur(10px);  /* Glass effect */
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .register-container h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #0097a7;
+        }
+
+        .register-container p {
+            font-size: 14px;
+            color: #b0b0b0;
+            margin-bottom: 30px;
+        }
+
+        /* Flash messages */
+        .flash-messages {
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #ff0000;
+            color: white;
+            border-radius: 5px;
+        }
+
+        /* Input container with icons */
+        .input-container {
+            position: relative;
+            width: 100%;
+        }
+
+        .input-container input {
+            width: 100%;
+            padding: 12px 16px 12px 40px; /* Space for icon */
+            border: none;
+            border-radius: 5px;
+            background-color: #333;
+            color: #ffffff;
+            font-size: 16px;
+            outline: none;
+            margin-bottom: 15px;
+        }
+
+        .input-container i {
+            position: absolute;
+            left: 10px;
+            top: 35%;
+            transform: translateY(-50%);
+            color: #0097a7;
+        }
+
+        .register-container input:focus {
+            background-color: #444;
+        }
+
+        /* Buttons */
+        .register-container button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(45deg, #0097a7, #21a179);
+            border: none;
+            border-radius: 30px;
+            color: #ffffff;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 15px;
+        }
+
+        .register-container button:hover {
+            background: linear-gradient(45deg, #007a8a, #1c8b7c);
+            transform: scale(1.05);
+        }
+
+        /* Return to login button */
+        .register-container .login-button {
+            background: linear-gradient(45deg, #4CAF50, #388E3C);
+        }
+
+        .register-container .login-button:hover {
+            background: linear-gradient(45deg, #388E3C, #2E7D32);
+        }
+
+        /* Subtle glow effect */
+        .register-container input,
+        .register-container button {
+            box-shadow: 0 0 5px rgba(0, 188, 212, 0.5);
+        }
+
+        .footer {
+            width: 100%;
+            background-color: #203a43;
+            padding: 10px;
+            text-align: center;
+            color: #f4f4f4;
+            position: absolute;
+            bottom: 0;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="register-container">
+        <h1>Register</h1>
+        <p>Please fill in the details to create an account</p>
+        
+        <!-- Flash messages section -->
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="flash-messages">
+                    <ul>
+                        {% for message in messages %}
+                            <li>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <form action="{{ url_for('register') }}" method="post">
+            <div class="input-container">
+                <i class="fas fa-user"></i>
+                <input type="text" placeholder="Full Name" id="doctor_name" name="doctor_name" required>
+            </div>
+            <div class="input-container">
+                <i class="fas fa-user-circle"></i>
+                <input type="text" placeholder="Username" id="username" name="username" required>
+            </div>
+            <div class="input-container">
+                <i class="fas fa-lock"></i>
+                <input type="password" placeholder="Password" id="password" name="password" required>
+            </div>
+            <button type="submit">Register</button>
+        </form>
+        <form action="{{ url_for('login') }}" method="get">
+            <button type="submit" class="login-button">Return to Login</button>
+        </form>
+    </div>
+   
+    <div class="footer">
+        &copy; 2025 Fracture Vision
+    </div>
+
+</body>
+</html>
