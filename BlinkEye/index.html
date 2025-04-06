@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BlinkEye</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: hidden;
+            position: relative;
+            animation: gradientShift 15s ease infinite;
+        }
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 10px solid transparent;
+            box-shadow: 0 0 40px rgba(0, 204, 255, 0.5);
+            pointer-events: none;
+        }
+        #first-page {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+        }
+        #first-page h1 {
+            font-size: 5rem;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            background: -webkit-linear-gradient(#00ffcc, #ff00cc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+            margin-bottom: 20px;
+        }
+        #first-page p {
+            font-size: 1.5rem;
+            opacity: 0.9;
+            color: #d3d3d3;
+            margin-bottom: 40px;
+        }
+        #start-btn {
+            padding: 15px 40px;
+            background: linear-gradient(45deg, #00ccff, #ff00cc);
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        #start-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 204, 255, 0.7);
+        }
+        .menu {
+            position: absolute;
+            top: 55%; /* Pushed down from 50% to 55% to make space for clock */
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: transparent;
+            border-radius: 20px;
+            padding: 30px;
+            width: 90vw;
+            height: calc(100vh - 150px); /* Adjusted height to fit new position */
+            max-width: 1200px;
+            max-height: 800px;
+            animation: slideIn 0.5s ease-in-out;
+            display: none;
+        }
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            gap: 20px;
+            width: 100%;
+            height: 100%;
+        }
+        .icon-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 15px;
+            color: #fff;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 15px;
+        }
+        .icon-btn:hover {
+            background: linear-gradient(45deg, #00ccff, #ff00cc);
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 204, 255, 0.7);
+        }
+        .icon-btn:focus {
+            outline: 2px solid #00ccff;
+            outline-offset: 4px;
+        }
+        .icon-btn i { font-size: 3rem; margin-bottom: 10px; }
+        .icon-btn span { font-size: 1.5rem; }
+        .home-automation-menu, .reminder-menu, .call-menu {
+            display: none;
+            flex-direction: column;
+            gap: 20px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            width: 100%;
+            height: 100%;
+        }
+        .home-automation-menu.active, .reminder-menu.active, .call-menu.active {
+            display: flex;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .home-automation-menu .icon-btn, .call-menu .icon-btn {
+            height: calc(25% - 15px);
+        }
+        .reminder-menu .icon-btn {
+            height: calc(33.33% - 13.33px);
+        }
+        .reminder-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            height: 100%;
+        }
+        .reminder-form label { font-size: 1.2rem; }
+        .reminder-form input {
+            padding: 10px;
+            font-size: 1rem;
+            border-radius: 5px;
+            border: none;
+            background: rgba(255, 255, 255, 0.8);
+            color: #000;
+        }
+        .reminder-form button {
+            padding: 10px;
+            background: linear-gradient(45deg, #00ccff, #ff00cc);
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+        .back-btn { background: rgba(255, 255, 255, 0.3); }
+        .back-btn:hover { background: linear-gradient(45deg, #ff4444, #ff8c00); }
+        #voice-status {
+            position: absolute;
+            top: 40px;
+            right: 10px;
+            font-size: 1rem;
+            color: #00ccff;
+            max-width: 200px;
+            word-wrap: break-word;
+            opacity: 0.8;
+        }
+        .footer {
+            padding: 20px;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+        }
+        .control-mode {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #fff;
+        }
+        #eye-mode-label, #voice-mode-label { font-size: 1rem; }
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+        }
+        .toggle-switch input { opacity: 0; width: 0; height: 0; }
+        .toggle-label {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #666;
+            border-radius: 15px;
+            cursor: pointer;
+        }
+        .toggle-label::before {
+            content: '';
+            position: absolute;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: #fff;
+            top: 2px;
+            left: 2px;
+            transition: all 0.3s ease;
+        }
+        .toggle-switch input:checked + .toggle-label::before { left: calc(100% - 28px); }
+        .toggle-switch input:checked + .toggle-label { background: #00ccff; }
+        #gaze-indicator {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: rgba(0, 204, 255, 0.7);
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            display: none;
+        }
+        #progress-circle {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            display: none;
+        }
+        #progress-circle svg { width: 100%; height: 100%; }
+        #progress-circle circle {
+            fill: none;
+            stroke: #ff00cc;
+            stroke-width: 5;
+            stroke-linecap: round;
+            transform-origin: center;
+            transform: rotate(-90deg);
+            transition: stroke-dashoffset 0.1s linear;
+        }
+        #clock {
+            position: absolute;
+            top: 20px; /* Adjusted for more space */
+            left: 20px;
+            font-family: 'Montserrat', sans-serif; /* Beautiful font */
+            color: #ffffff; /* White color */
+            opacity: 0.9;
+            line-height: 1.2;
+            text-align: left;
+        }
+        #clock .time {
+            font-size: 3rem; /* Larger font size for time */
+            font-weight: 700;
+        }
+        #clock .date {
+            font-size: 1.5rem; /* Smaller font size for date */
+            font-weight: 400;
+        }
+        #command-notification {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(0, 204, 255, 0.8);
+            padding: 15px 25px;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            color: #fff;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            max-width: 300px;
+            text-align: center;
+        }
+        #command-notification.active {
+            opacity: 1;
+        }
+        @keyframes fadeIn { 0% { opacity: 0; } 100% { opacity: 1; } }
+        @keyframes slideIn { 0% { opacity: 0; transform: translate(-50%, -70px); } 100% { opacity: 1; transform: translate(-50%, -50%); } }
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        @media (max-width: 768px) {
+            .menu { padding: 15px; width: 95vw; height: calc(100vh - 120px); top: 55%; }
+            .button-grid { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(3, 1fr); gap: 10px; }
+            .icon-btn { font-size: 1rem; padding: 10px; }
+            .icon-btn i { font-size: 2rem; }
+            .icon-btn span { font-size: 1.2rem; }
+            .home-automation-menu, .reminder-menu, .call-menu { gap: 10px; }
+            #voice-status { top: 30px; right: 5px; font-size: 0.9rem; max-width: 150px; }
+            #clock .time { font-size: 2rem; }
+            #clock .date { font-size: 1.2rem; }
+            #command-notification { font-size: 1rem; padding: 10px 20px; }
+            #first-page h1 { font-size: 3.5rem; }
+            #first-page p { font-size: 1.2rem; }
+            #start-btn { font-size: 1.2rem; padding: 12px 30px; }
+        }
+        @media (max-width: 768px) and (orientation: landscape) {
+            .button-grid { grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 1fr); }
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- First Page -->
+    <div id="first-page">
+        <h1>BlinkEye</h1>
+        <p>Assistive tool for Neuromuscular Disorder Patients</p>
+        <button id="start-btn">Start</button>
+        <div class="footer" style="position: absolute; bottom: 20px;">
+            <div class="control-mode">
+                <span id="eye-mode-label">Eye Mode</span>
+                <div class="toggle-switch">
+                    <input type="checkbox" id="eye-mode-toggle">
+                    <label for="eye-mode-toggle" class="toggle-label"></label>
+                </div>
+            </div>
+            <div class="control-mode">
+                <span id="voice-mode-label">Voice Mode</span>
+                <div class="toggle-switch">
+                    <input type="checkbox" id="voice-mode-toggle">
+                    <label for="voice-mode-toggle" class="toggle-label"></label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Menu (Second Page) -->
+    <div class="menu" id="menu" role="dialog" aria-label="Control Menu">
+        <div class="button-grid" id="main-grid">
+            <button class="icon-btn" id="emergency-sms-btn">
+                <i class="fas fa-exclamation-triangle"></i>
+                <span>Emergency Alert</span>
+            </button>
+            <button class="icon-btn" id="virtual-keyboard-btn">
+                <i class="fas fa-keyboard"></i>
+                <span>Virtual Keyboard</span>
+            </button>
+            <button class="icon-btn" id="home-automation-btn">
+                <i class="fas fa-home"></i>
+                <span>Home Automation</span>
+            </button>
+            <button class="icon-btn" id="call-btn">
+                <i class="fas fa-phone"></i>
+                <span>Call</span>
+            </button>
+            <button class="icon-btn" id="reminder-btn">
+                <i class="fas fa-bell"></i>
+                <span>Reminder</span>
+            </button>
+        </div>
+        <div class="home-automation-menu" id="home-automation-menu">
+            <button class="icon-btn" id="turn-on-btn">
+                <i class="fas fa-lightbulb"></i>
+                <span>Turn On Bulb</span>
+            </button>
+            <button class="icon-btn" id="turn-off-btn">
+                <i class="fas fa-lightbulb" style="color: #ff8c00;"></i>
+                <span>Turn Off Bulb</span>
+            </button>
+            <button class="icon-btn back-btn" id="back-btn">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back</span>
+            </button>
+        </div>
+        <div class="reminder-menu" id="reminder-menu">
+            <div class="reminder-form">
+                <label for="reminder-title">Reminder Title:</label>
+                <input type="text" id="reminder-title" placeholder="Enter reminder title">
+                <label for="reminder-date">Date:</label>
+                <input type="date" id="reminder-date">
+                <label for="reminder-time">Time:</label>
+                <input type="time" id="reminder-time">
+                <button id="set-reminder-btn">Set Reminder</button>
+            </div>
+            <button class="icon-btn back-btn" id="reminder-back-btn">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back</span>
+            </button>
+        </div>
+        <div class="call-menu" id="call-menu">
+            <button class="icon-btn" id="call-water-btn">
+                <i class="fas fa-tint"></i>
+                <span>Water</span>
+            </button>
+            <button class="icon-btn" id="call-food-btn">
+                <i class="fas fa-utensils"></i>
+                <span>Food</span>
+            </button>
+            <button class="icon-btn" id="call-bathroom-btn">
+                <i class="fas fa-restroom"></i>
+                <span>Bathroom</span>
+            </button>
+            <button class="icon-btn back-btn" id="call-back-btn">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back</span>
+            </button>
+        </div>
+    </div>
+    <div class="footer" id="menu-footer" style="display: none;">
+        <div class="control-mode">
+            <span id="eye-mode-label">Eye Mode</span>
+            <div class="toggle-switch">
+                <input type="checkbox" id="eye-mode-toggle-menu">
+                <label for="eye-mode-toggle-menu" class="toggle-label"></label>
+            </div>
+        </div>
+        <div class="control-mode">
+            <span id="voice-mode-label">Voice Mode</span>
+            <div class="toggle-switch">
+                <input type="checkbox" id="voice-mode-toggle-menu">
+                <label for="voice-mode-toggle-menu" class="toggle-label"></label>
+            </div>
+        </div>
+    </div>
+    <div id="voice-status"></div>
+    <div id="gaze-indicator"></div>
+    <div id="progress-circle">
+        <svg viewBox="0 0 36 36">
+            <circle cx="18" cy="18" r="16" stroke-dasharray="100" stroke-dashoffset="100" />
+        </svg>
+    </div>
+    <div id="clock"><span class="time"></span><br><span class="date"></span></div>
+    <div id="command-notification"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.1/socket.io.js"></script>
+    <script>
+        const socket = io.connect('http://localhost:5000');
+        const firstPage = document.getElementById('first-page');
+        const startBtn = document.getElementById('start-btn');
+        const menu = document.getElementById('menu');
+        const menuFooter = document.getElementById('menu-footer');
+        const mainGrid = document.getElementById('main-grid');
+        const homeAutomationMenu = document.getElementById('home-automation-menu');
+        const reminderMenu = document.getElementById('reminder-menu');
+        const callMenu = document.getElementById('call-menu');
+        const emergencySmsBtn = document.getElementById('emergency-sms-btn');
+        const virtualKeyboardBtn = document.getElementById('virtual-keyboard-btn');
+        const homeAutomationBtn = document.getElementById('home-automation-btn');
+        const turnOnBtn = document.getElementById('turn-on-btn');
+        const turnOffBtn = document.getElementById('turn-off-btn');
+        const backBtn = document.getElementById('back-btn');
+        const callBtn = document.getElementById('call-btn');
+        const callWaterBtn = document.getElementById('call-water-btn');
+        const callFoodBtn = document.getElementById('call-food-btn');
+        const callBathroomBtn = document.getElementById('call-bathroom-btn');
+        const callBackBtn = document.getElementById('call-back-btn');
+        const reminderBtn = document.getElementById('reminder-btn');
+        const reminderBackBtn = document.getElementById('reminder-back-btn');
+        const setReminderBtn = document.getElementById('set-reminder-btn');
+        const eyeModeToggle = document.getElementById('eye-mode-toggle');
+        const voiceModeToggle = document.getElementById('voice-mode-toggle');
+        const eyeModeToggleMenu = document.getElementById('eye-mode-toggle-menu');
+        const voiceModeToggleMenu = document.getElementById('voice-mode-toggle-menu');
+        const voiceStatus = document.getElementById('voice-status');
+        const gazeIndicator = document.getElementById('gaze-indicator');
+        const progressCircle = document.getElementById('progress-circle');
+        const progressRing = progressCircle.querySelector('circle');
+        const commandNotification = document.getElementById('command-notification');
+        const clock = document.getElementById('clock');
+        const timeDisplay = clock.querySelector('.time');
+        const dateDisplay = clock.querySelector('.date');
+
+        let isVoiceActive = false;
+        let isEyeActive = false;
+
+        // Sync toggle states between pages
+        eyeModeToggle.addEventListener('change', () => {
+            eyeModeToggleMenu.checked = eyeModeToggle.checked;
+        });
+        voiceModeToggle.addEventListener('change', () => {
+            voiceModeToggleMenu.checked = voiceModeToggle.checked;
+        });
+        eyeModeToggleMenu.addEventListener('change', () => {
+            eyeModeToggle.checked = eyeModeToggleMenu.checked;
+            toggleEyeMode();
+        });
+        voiceModeToggleMenu.addEventListener('change', () => {
+            voiceModeToggle.checked = voiceModeToggleMenu.checked;
+            toggleVoiceMode();
+        });
+
+        // Start button handler
+        startBtn.addEventListener('click', () => {
+            firstPage.style.display = 'none';
+            menu.style.display = 'block';
+            menuFooter.style.display = 'flex';
+            if (eyeModeToggle.checked) toggleEyeMode(true);
+            if (voiceModeToggle.checked) toggleVoiceMode(true);
+        });
+
+        // Toggle Eye Mode
+        function toggleEyeMode(initial = false) {
+            if (eyeModeToggle.checked) {
+                if (!isEyeActive || initial) {
+                    fetch('/start-eye-tracking', { method: 'POST' })
+                        .then(response => response.text())
+                        .then(data => {
+                            isEyeActive = true;
+                            console.log('Eye Mode Started:', data);
+                            showCommandExecuted('Start Eye Mode');
+                        });
+                }
+            } else {
+                fetch('/stop-eye-tracking', { method: 'POST' })
+                    .then(response => response.text())
+                    .then(data => {
+                        isEyeActive = false;
+                        console.log('Eye Mode Stopped:', data);
+                        showCommandExecuted('Stop Eye Mode');
+                    });
+            }
+        }
+
+        // Toggle Voice Mode
+        function toggleVoiceMode(initial = false) {
+            if (voiceModeToggle.checked) {
+                if (!isVoiceActive || initial) {
+                    fetch('/start-voice-mode', { method: 'POST' })
+                        .then(response => response.text())
+                        .then(data => {
+                            isVoiceActive = true;
+                            voiceStatus.textContent = "Listening for voice commands...";
+                            console.log('Voice Mode Started:', data);
+                            showCommandExecuted('Start Voice Mode');
+                        });
+                }
+            } else {
+                fetch('/stop-voice-mode', { method: 'POST' })
+                    .then(response => response.text())
+                    .then(data => {
+                        isVoiceActive = false;
+                        voiceStatus.textContent = "Voice mode inactive";
+                        console.log('Voice Mode Stopped:', data);
+                        showCommandExecuted('Stop Voice Mode');
+                    });
+            }
+        }
+
+        // Command Notification
+        function showCommandExecuted(commandName) {
+            commandNotification.textContent = `${commandName} Executed`;
+            commandNotification.classList.add('active');
+            setTimeout(() => {
+                commandNotification.classList.remove('active');
+            }, 2000);
+        }
+
+        // Clock Update
+        function updateClock() {
+            const now = new Date();
+            const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+            const day = days[now.getDay()];
+            const month = months[now.getMonth()];
+            const date = now.getDate();
+            let hours = now.getHours();
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12 || 12;
+
+            timeDisplay.textContent = `${hours}:${minutes} ${ampm}`;
+            dateDisplay.textContent = `${date} ${month}, ${day}`;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // Gaze Update
+        function updateGaze(data) {
+            if (data.x !== null && data.y !== null) {
+                gazeIndicator.style.display = 'block';
+                gazeIndicator.style.left = `${data.x}px`;
+                gazeIndicator.style.top = `${data.y}px`;
+
+                if (data.dwell_progress > 0) {
+                    progressCircle.style.display = 'block';
+                    progressCircle.style.left = `${data.x}px`;
+                    progressCircle.style.top = `${data.y}px`;
+                    const offset = 100 - (data.dwell_progress * 100);
+                    progressRing.style.strokeDashoffset = offset;
+
+                    if (data.dwell_progress >= 1) {
+                        setTimeout(() => {
+                            progressCircle.style.display = 'none';
+                            const rect = menu.getBoundingClientRect();
+                            if (data.x >= rect.left && data.x <= rect.right && data.y >= rect.top && data.y <= rect.bottom) {
+                                const buttons = menu.querySelectorAll('.icon-btn');
+                                buttons.forEach(btn => {
+                                    const btnRect = btn.getBoundingClientRect();
+                                    if (data.x >= btnRect.left && data.x <= btnRect.right && data.y >= btnRect.top && data.y <= btnRect.bottom) {
+                                        if (btn.id === 'turn-on-btn') {
+                                            fetch('/turn-on-bulb', { method: 'POST' })
+                                                .then(response => response.text())
+                                                .then(data => {
+                                                    console.log('Turn On:', data);
+                                                    showCommandExecuted('Turn On Bulb');
+                                                });
+                                        } else if (btn.id === 'turn-off-btn') {
+                                            fetch('/turn-off-bulb', { method: 'POST' })
+                                                .then(response => response.text())
+                                                .then(data => {
+                                                    console.log('Turn Off:', data);
+                                                    showCommandExecuted('Turn Off Bulb');
+                                                });
+                                        } else if (btn.id === 'emergency-sms-btn') {
+                                            fetch('/api/send-emergency-sms', { method: 'GET' })
+                                                .then(response => response.json())
+                                                .then(data => {
+                                                    console.log(data.message);
+                                                    showCommandExecuted('Emergency Alert');
+                                                });
+                                        } else if (btn.id === 'virtual-keyboard-btn') {
+                                            window.location.href = '/virtual-keyboard';
+                                            showCommandExecuted('Virtual Keyboard');
+                                        } else if (btn.id === 'home-automation-btn') {
+                                            mainGrid.style.display = 'none';
+                                            homeAutomationMenu.classList.add('active');
+                                            showCommandExecuted('Home Automation');
+                                        } else if (btn.id === 'back-btn') {
+                                            homeAutomationMenu.classList.remove('active');
+                                            mainGrid.style.display = 'grid';
+                                            showCommandExecuted('Back');
+                                        } else if (btn.id === 'call-btn') {
+                                            mainGrid.style.display = 'none';
+                                            callMenu.classList.add('active');
+                                            showCommandExecuted('Call');
+                                        } else if (btn.id === 'call-water-btn') {
+                                            fetch('/api/request-service', {
+                                                method: 'POST',
+                                                headers: { 'Content-Type': 'application/json' },
+                                                body: JSON.stringify({ service: 'water' })
+                                            })
+                                                .then(response => response.json())
+                                                .then(data => {
+                                                    console.log(data.message);
+                                                    showCommandExecuted('Call Water');
+                                                });
+                                        } else if (btn.id === 'call-food-btn') {
+                                            fetch('/api/request-service', {
+                                                method: 'POST',
+                                                headers: { 'Content-Type': 'application/json' },
+                                                body: JSON.stringify({ service: 'food' })
+                                            })
+                                                .then(response => response.json())
+                                                .then(data => {
+                                                    console.log(data.message);
+                                                    showCommandExecuted('Call Food');
+                                                });
+                                        } else if (btn.id === 'call-bathroom-btn') {
+                                            fetch('/api/request-service', {
+                                                method: 'POST',
+                                                headers: { 'Content-Type': 'application/json' },
+                                                body: JSON.stringify({ service: 'bathroom' })
+                                            })
+                                                .then(response => response.json())
+                                                .then(data => {
+                                                    console.log(data.message);
+                                                    showCommandExecuted('Call Bathroom');
+                                                });
+                                        } else if (btn.id === 'call-back-btn') {
+                                            callMenu.classList.remove('active');
+                                            mainGrid.style.display = 'grid';
+                                            showCommandExecuted('Back');
+                                        } else if (btn.id === 'reminder-btn') {
+                                            mainGrid.style.display = 'none';
+                                            reminderMenu.classList.add('active');
+                                            showCommandExecuted('Reminder');
+                                        } else if (btn.id === 'reminder-back-btn') {
+                                            reminderMenu.classList.remove('active');
+                                            mainGrid.style.display = 'grid';
+                                            showCommandExecuted('Back');
+                                        }
+                                    }
+                                });
+                            }
+                        }, 200);
+                    }
+                } else {
+                    progressCircle.style.display = 'none';
+                }
+            } else {
+                gazeIndicator.style.display = 'none';
+                progressCircle.style.display = 'none';
+            }
+        }
+
+        // Voice Update
+        function updateVoice(data) {
+            voiceStatus.textContent = data.text || "Voice mode inactive";
+        }
+
+        socket.on('gaze_update', (data) => {
+            requestAnimationFrame(() => updateGaze(data));
+        });
+
+        socket.on('voice_update', (data) => {
+            updateVoice(data);
+        });
+
+        socket.on('voice_command', (data) => {
+            if (data.command === 'exit') {
+                homeAutomationMenu.classList.remove('active');
+                reminderMenu.classList.remove('active');
+                callMenu.classList.remove('active');
+                mainGrid.style.display = 'grid';
+                showCommandExecuted('Exit');
+            } else if (data.command === 'home_automation') {
+                mainGrid.style.display = 'none';
+                homeAutomationMenu.classList.add('active');
+                showCommandExecuted('Home Automation');
+            } else if (data.command === 'emergency_sms') {
+                fetch('/api/send-emergency-sms', { method: 'GET' })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data.message);
+                        showCommandExecuted('Emergency Alert');
+                    });
+            }
+        });
+
+        emergencySmsBtn.addEventListener('click', () => {
+            fetch('/api/send-emergency-sms', { method: 'GET' })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data.message);
+                    showCommandExecuted('Emergency Alert');
+                });
+        });
+
+        virtualKeyboardBtn.addEventListener('click', () => {
+            window.location.href = '/virtual-keyboard';
+            showCommandExecuted('Virtual Keyboard');
+        });
+
+        homeAutomationBtn.addEventListener('click', () => {
+            mainGrid.style.display = 'none';
+            homeAutomationMenu.classList.add('active');
+            showCommandExecuted('Home Automation');
+        });
+
+        turnOnBtn.addEventListener('click', () => {
+            fetch('/turn-on-bulb', { method: 'POST' })
+                .then(response => response.text())
+                .then(data => {
+                    console.log('Turn On:', data);
+                    showCommandExecuted('Turn On Bulb');
+                });
+        });
+
+        turnOffBtn.addEventListener('click', () => {
+            fetch('/turn-off-bulb', { method: 'POST' })
+                .then(response => response.text())
+                .then(data => {
+                    console.log('Turn Off:', data);
+                    showCommandExecuted('Turn Off Bulb');
+                });
+        });
+
+        backBtn.addEventListener('click', () => {
+            homeAutomationMenu.classList.remove('active');
+            mainGrid.style.display = 'grid';
+            showCommandExecuted('Back');
+        });
+
+        callBtn.addEventListener('click', () => {
+            mainGrid.style.display = 'none';
+            callMenu.classList.add('active');
+            showCommandExecuted('Call');
+        });
+
+        callWaterBtn.addEventListener('click', () => {
+            fetch('/api/request-service', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ service: 'water' })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data.message);
+                    showCommandExecuted('Call Water');
+                });
+        });
+
+        callFoodBtn.addEventListener('click', () => {
+            fetch('/api/request-service', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ service: 'food' })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data.message);
+                    showCommandExecuted('Call Food');
+                });
+        });
+
+        callBathroomBtn.addEventListener('click', () => {
+            fetch('/api/request-service', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ service: 'bathroom' })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data.message);
+                    showCommandExecuted('Call Bathroom');
+                });
+        });
+
+        callBackBtn.addEventListener('click', () => {
+            callMenu.classList.remove('active');
+            mainGrid.style.display = 'grid';
+            showCommandExecuted('Back');
+        });
+
+        reminderBtn.addEventListener('click', () => {
+            mainGrid.style.display = 'none';
+            reminderMenu.classList.add('active');
+            showCommandExecuted('Reminder');
+        });
+
+        reminderBackBtn.addEventListener('click', () => {
+            reminderMenu.classList.remove('active');
+            mainGrid.style.display = 'grid';
+            showCommandExecuted('Back');
+        });
+
+        setReminderBtn.addEventListener('click', () => {
+            const title = document.getElementById('reminder-title').value;
+            const date = document.getElementById('reminder-date').value;
+            const time = document.getElementById('reminder-time').value;
+            if (title && date && time) {
+                fetch('/api/set-reminder', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ title, date, time })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data.message);
+                    if (data.success) {
+                        document.getElementById('reminder-title').value = '';
+                        document.getElementById('reminder-date').value = '';
+                        document.getElementById('reminder-time').value = '';
+                        reminderMenu.classList.remove('active');
+                        mainGrid.style.display = 'grid';
+                    }
+                    showCommandExecuted('Set Reminder');
+                });
+            } else {
+                console.log('Please fill in all fields');
+            }
+        });
+    </script>
+</body>
+</html>
