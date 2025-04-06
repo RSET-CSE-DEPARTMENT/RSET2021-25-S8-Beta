@@ -1,0 +1,43 @@
+{
+  "build": "py39h055cbcc_0",
+  "build_number": 0,
+  "channel": "https://repo.anaconda.com/pkgs/main/win-64",
+  "constrains": [],
+  "depends": [
+    "blas 1.0 mkl",
+    "mkl >=2023.1.0,<2024.0a0",
+    "mkl-service >=2.3.0,<3.0a0",
+    "mkl_fft",
+    "mkl_random",
+    "numpy-base 1.26.0 py39h65a83cf_0",
+    "python >=3.9,<3.10.0a0",
+    "vc >=14.2,<15.0a0",
+    "vs2015_runtime >=14.27.29016,<15.0a0"
+  ],
+  "extracted_package_dir": "C:\\Users\\DELL\\anaconda3\\pkgs\\numpy-1.26.0-py39h055cbcc_0",
+  "files": [
+    ".nonadmin"
+  ],
+  "fn": "numpy-1.26.0-py39h055cbcc_0.conda",
+  "legacy_bz2_md5": "4274d06db8a9a381c072d226d0322dc0",
+  "license": "BSD-3-Clause",
+  "license_family": "BSD",
+  "link": {
+    "source": "C:\\Users\\DELL\\anaconda3\\pkgs\\numpy-1.26.0-py39h055cbcc_0",
+    "type": 1
+  },
+  "md5": "bd65bd13250dd685a183fb663b7f50ab",
+  "name": "numpy",
+  "package_tarball_full_path": "C:\\Users\\DELL\\anaconda3\\pkgs\\numpy-1.26.0-py39h055cbcc_0.conda",
+  "paths_data": {
+    "paths": [],
+    "paths_version": 1
+  },
+  "requested_spec": "None",
+  "sha256": "c2a10a4d72ae605f5d63e59a05a3774fedefbb679473e7e0047fe97d66a86416",
+  "size": 10689,
+  "subdir": "win-64",
+  "timestamp": 1695830845329,
+  "url": "https://repo.anaconda.com/pkgs/main/win-64/numpy-1.26.0-py39h055cbcc_0.conda",
+  "version": "1.26.0"
+}

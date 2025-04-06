@@ -1,0 +1,128 @@
+{
+  "build": "py39hf8509d4_0",
+  "build_number": 0,
+  "channel": "https://conda.anaconda.org/conda-forge/win-64",
+  "constrains": [],
+  "depends": [
+    "jpeg >=9e,<10a",
+    "libpng >=1.6.37,<1.7.0a0",
+    "numpy >=1.19.5,<2.0a0",
+    "python >=3.9,<3.10.0a0",
+    "python_abi 3.9.* *_cp39",
+    "vc >=14.1,<15",
+    "vs2015_runtime >=14.16.27033"
+  ],
+  "extracted_package_dir": "C:\\Users\\DELL\\anaconda3\\pkgs\\dlib-19.24.0-py39hf8509d4_0",
+  "files": [
+    "Lib/site-packages/_dlib_pybind11.cp39-win_amd64.pyd",
+    "Lib/site-packages/dlib-19.24.0.dist-info/INSTALLER",
+    "Lib/site-packages/dlib-19.24.0.dist-info/METADATA",
+    "Lib/site-packages/dlib-19.24.0.dist-info/RECORD",
+    "Lib/site-packages/dlib-19.24.0.dist-info/REQUESTED",
+    "Lib/site-packages/dlib-19.24.0.dist-info/WHEEL",
+    "Lib/site-packages/dlib-19.24.0.dist-info/direct_url.json",
+    "Lib/site-packages/dlib-19.24.0.dist-info/top_level.txt",
+    "Lib/site-packages/dlib/__init__.py",
+    "Lib/site-packages/dlib/__pycache__/__init__.cpython-39.pyc",
+    "Lib/site-packages/libiomp5md.dll",
+    ".nonadmin"
+  ],
+  "fn": "dlib-19.24.0-py39hf8509d4_0.tar.bz2",
+  "license": "BSL-1.0",
+  "link": {
+    "source": "C:\\Users\\DELL\\anaconda3\\pkgs\\dlib-19.24.0-py39hf8509d4_0",
+    "type": 1
+  },
+  "md5": "e07d52a765f7b6a3efd1e560eb09840a",
+  "name": "dlib",
+  "package_tarball_full_path": "C:\\Users\\DELL\\anaconda3\\pkgs\\dlib-19.24.0-py39hf8509d4_0.tar.bz2",
+  "paths_data": {
+    "paths": [
+      {
+        "_path": "Lib/site-packages/_dlib_pybind11.cp39-win_amd64.pyd",
+        "path_type": "hardlink",
+        "sha256": "2db36f22d89d025e322075f9f85227c54a91d81b47ea1f538717f96eba784a5a",
+        "sha256_in_prefix": "2db36f22d89d025e322075f9f85227c54a91d81b47ea1f538717f96eba784a5a",
+        "size_in_bytes": 8591872
+      },
+      {
+        "_path": "Lib/site-packages/dlib-19.24.0.dist-info/INSTALLER",
+        "path_type": "hardlink",
+        "sha256": "d0edee15f91b406f3f99726e44eb990be6e34fd0345b52b910c568e0eef6a2a8",
+        "sha256_in_prefix": "d0edee15f91b406f3f99726e44eb990be6e34fd0345b52b910c568e0eef6a2a8",
+        "size_in_bytes": 5
+      },
+      {
+        "_path": "Lib/site-packages/dlib-19.24.0.dist-info/METADATA",
+        "path_type": "hardlink",
+        "sha256": "0205bd5a4350a17505f82094f1b66876976c870a268bfd96056e4489b7703294",
+        "sha256_in_prefix": "0205bd5a4350a17505f82094f1b66876976c870a268bfd96056e4489b7703294",
+        "size_in_bytes": 1401
+      },
+      {
+        "_path": "Lib/site-packages/dlib-19.24.0.dist-info/RECORD",
+        "path_type": "hardlink",
+        "sha256": "90aaa2637ac406b9d611b94fac0460f64fe9be4b54ece98cbbf8c695c478ad35",
+        "sha256_in_prefix": "90aaa2637ac406b9d611b94fac0460f64fe9be4b54ece98cbbf8c695c478ad35",
+        "size_in_bytes": 853
+      },
+      {
+        "_path": "Lib/site-packages/dlib-19.24.0.dist-info/REQUESTED",
+        "path_type": "hardlink",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sha256_in_prefix": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_in_bytes": 0
+      },
+      {
+        "_path": "Lib/site-packages/dlib-19.24.0.dist-info/WHEEL",
+        "path_type": "hardlink",
+        "sha256": "7d571594bce2f021a2fd497cbe331d9fc804476e5d9f918183d13a93dcf8d7e6",
+        "sha256_in_prefix": "7d571594bce2f021a2fd497cbe331d9fc804476e5d9f918183d13a93dcf8d7e6",
+        "size_in_bytes": 100
+      },
+      {
+        "_path": "Lib/site-packages/dlib-19.24.0.dist-info/direct_url.json",
+        "path_type": "hardlink",
+        "sha256": "68f99ba15aa89a7abe92ae584e6ed578db42cf385bf653b69771649b2a1f61c4",
+        "sha256_in_prefix": "68f99ba15aa89a7abe92ae584e6ed578db42cf385bf653b69771649b2a1f61c4",
+        "size_in_bytes": 65
+      },
+      {
+        "_path": "Lib/site-packages/dlib-19.24.0.dist-info/top_level.txt",
+        "path_type": "hardlink",
+        "sha256": "6253d314615256f2f3f35a7a1d80cdab14d4af759ee8d0883a88a0be60449407",
+        "sha256_in_prefix": "6253d314615256f2f3f35a7a1d80cdab14d4af759ee8d0883a88a0be60449407",
+        "size_in_bytes": 20
+      },
+      {
+        "_path": "Lib/site-packages/dlib/__init__.py",
+        "path_type": "hardlink",
+        "sha256": "0cbf9ee2c5397e4277dd0da550b0624542491c630e924aa13bb22ef956736402",
+        "sha256_in_prefix": "0cbf9ee2c5397e4277dd0da550b0624542491c630e924aa13bb22ef956736402",
+        "size_in_bytes": 795
+      },
+      {
+        "_path": "Lib/site-packages/dlib/__pycache__/__init__.cpython-39.pyc",
+        "path_type": "hardlink",
+        "sha256": "7be6a461a8d4c504d868601440d00d8b16536f9da476b2832e8d8011d67e4c03",
+        "sha256_in_prefix": "7be6a461a8d4c504d868601440d00d8b16536f9da476b2832e8d8011d67e4c03",
+        "size_in_bytes": 827
+      },
+      {
+        "_path": "Lib/site-packages/libiomp5md.dll",
+        "path_type": "hardlink",
+        "sha256": "ee6c4a8156b6afea82647326219c89cadc6e03648467d03f2db13e471b6d79db",
+        "sha256_in_prefix": "ee6c4a8156b6afea82647326219c89cadc6e03648467d03f2db13e471b6d79db",
+        "size_in_bytes": 1959528
+      }
+    ],
+    "paths_version": 1
+  },
+  "requested_spec": "dlib",
+  "sha256": "e1bc247abd40ed36631943b8d9135558061a2e700d96acb2cb1958766a722af0",
+  "size": 4653760,
+  "subdir": "win-64",
+  "timestamp": 1652036740662,
+  "url": "https://conda.anaconda.org/conda-forge/win-64/dlib-19.24.0-py39hf8509d4_0.tar.bz2",
+  "version": "19.24.0"
+}

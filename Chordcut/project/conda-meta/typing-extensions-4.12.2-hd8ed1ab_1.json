@@ -1,0 +1,33 @@
+{
+  "build": "hd8ed1ab_1",
+  "build_number": 1,
+  "channel": "https://conda.anaconda.org/conda-forge/noarch",
+  "constrains": [],
+  "depends": [
+    "typing_extensions 4.12.2 pyha770c72_1"
+  ],
+  "extracted_package_dir": "C:\\Users\\Heinzkoshy\\anaconda3\\pkgs\\typing-extensions-4.12.2-hd8ed1ab_1",
+  "files": [],
+  "fn": "typing-extensions-4.12.2-hd8ed1ab_1.conda",
+  "license": "PSF-2.0",
+  "link": {
+    "source": "C:\\Users\\Heinzkoshy\\anaconda3\\pkgs\\typing-extensions-4.12.2-hd8ed1ab_1",
+    "type": 1
+  },
+  "md5": "b6a408c64b78ec7b779a3e5c7a902433",
+  "name": "typing-extensions",
+  "noarch": "generic",
+  "package_tarball_full_path": "C:\\Users\\Heinzkoshy\\anaconda3\\pkgs\\typing-extensions-4.12.2-hd8ed1ab_1.conda",
+  "package_type": "noarch_generic",
+  "paths_data": {
+    "paths": [],
+    "paths_version": 1
+  },
+  "requested_spec": "None",
+  "sha256": "c8e9c1c467b5f960b627d7adc1c65fece8e929a3de89967e91ef0f726422fd32",
+  "size": 10075,
+  "subdir": "noarch",
+  "timestamp": 1733188758000,
+  "url": "https://conda.anaconda.org/conda-forge/noarch/typing-extensions-4.12.2-hd8ed1ab_1.conda",
+  "version": "4.12.2"
+}
