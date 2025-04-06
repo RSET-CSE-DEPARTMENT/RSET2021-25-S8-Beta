@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to AIDCA</title>
+    
+    <!-- Link to Google Fonts for stylish font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            color: white;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .welcome {
+            font-size: 2.5rem;
+            font-weight: 600;
+            animation: slide-in 2s ease-out;
+        }
+
+        .description {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            text-align: center;
+            max-width: 600px;
+        }
+
+        .start-btn {
+            margin-top: 30px;
+            padding: 12px 25px;
+            font-size: 1.2rem;
+            color: white;
+            background: linear-gradient(to right, #8e2de2, #4a00e0);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .start-btn:hover {
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+        }
+
+        /* Popup Style */
+        .popup {
+            display: none; /* Initially hidden */
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: flex-start;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background: linear-gradient(to right, #4b0082, #2c003e); /* Dark purple gradient */
+            color: white;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            animation: pop-up 0.5s ease-in-out;
+            z-index: 9999;
+            width: 400px; /* Wider popup box */
+            max-width: none; /* Disable max-width for better control */
+            text-align: center;
+        }
+
+        .popup button {
+            background: #fff;
+            color: #4b0082;
+            padding: 10px 20px;
+            border: none;
+            font-size: 1.1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px; /* Add margin to space the button from the text */
+            align-self: flex-end; /* Align the button to the right */
+        }
+
+        .popup button:hover {
+            background: #2c003e;
+            color: white;
+        }
+
+        @keyframes slide-in {
+            0% {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes pop-up {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 0.7;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="welcome">Welcome to AIDCA!</div>
+    <div class="description">
+        AIDCA is an intelligent tool that bridges the gap between human language and databases. 
+        Start your journey to effortlessly interact with your database using natural language!
+    </div>
+    <button class="start-btn" onclick="startJourney()">Start Your Journey</button>
+
+    <!-- Popup Message -->
+    <div id="popup-message" class="popup">
+        Looks like you have not connected to a database!
+        <button onclick="connectDatabase()">Connect Now</button>
+    </div>
+
+    <script>
+        function startJourney() {
+            // Show the popup message with animation
+            let popup = document.getElementById('popup-message');
+            popup.style.display = 'flex'; // Change to 'flex' to show the popup
+            popup.style.animation = 'pop-up 0.5s ease-in-out'; // Trigger popup animation
+        }
+
+        function connectDatabase() {
+            // Logic for redirecting to the database connection page
+            window.location.href = "/dbconnect"; // Redirect to connect database page
+        }
+
+        // Check connection status from Flask
+        fetch('/check_connection')
+            .then(response => response.json())
+            .then(data => {
+                if (data.connected) {
+                    window.location.href = "/home"; // Proceed to the home page
+                }
+            })
+            .catch(error => console.error("Error checking connection:", error));
+    </script>
+
+    
+
+</body>
+</html>

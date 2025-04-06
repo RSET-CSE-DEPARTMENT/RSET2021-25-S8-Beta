@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL Chatbot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .chat-container {
+            width: 50%;
+            max-width: 600px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .chat-messages {
+            height: 300px;
+            overflow-y: auto;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+        .chat-message {
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .user {
+            background-color: #d1e7fd;
+            text-align: right;
+        }
+        .bot {
+            background-color: #f0f0f0;
+            text-align: left;
+        }
+        .input-container {
+            display: flex;
+            margin-top: 10px;
+        }
+        input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            outline: none;
+        }
+        button {
+            padding: 10px 15px;
+            border: none;
+            background: #007bff;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .result-container {
+            margin-top: 20px;
+            padding: 10px;
+            background: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-height: 200px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="chat-container">
+        <h2>SQL Query Chatbot</h2>
+        <div id="chat-messages" class="chat-messages"></div>
+
+        <div class="input-container">
+            <input type="text" id="query-input" placeholder="Ask a database query...">
+            <button onclick="sendQuery()">Send</button>
+        </div>
+
+        <div class="result-container">
+            <h3>Query Result:</h3>
+            <div id="result-table"></div>
+        </div>
+    </div>
+
+    <script>
+        async function sendQuery() {     
+            let userQuery = document.getElementById("query-input").value.trim();
+            
+            if (!userQuery) {
+                return; // Prevent sending empty queries
+            }
+
+            const chatMessages = document.getElementById("chat-messages");
+
+            // Add user input to chat
+            const userMessage = document.createElement("div");
+            userMessage.className = "chat-message user";
+            userMessage.textContent = `You: ${userQuery}`;
+            chatMessages.appendChild(userMessage);
+
+            // Show processing message
+            const processingMessage = document.createElement("div");
+            processingMessage.className = "chat-message bot";
+            processingMessage.textContent = "SQLify: Processing your query...";
+            chatMessages.appendChild(processingMessage);
+
+            try {
+                let response = await fetch("/execute_query", { 
+                    method: "POST", 
+                    headers: { "Content-Type": "application/json" }, 
+                    body: JSON.stringify({ query: userQuery }) 
+                });
+
+                let data = await response.json();
+                console.log("Received Response:", data); // Debugging line
+
+                // Remove "Processing..." message
+                chatMessages.removeChild(processingMessage);
+
+                // Display bot response
+                const botMessage = document.createElement("div");
+                botMessage.className = "chat-message bot";
+
+                if (data.status === "success") {
+                    if (data.rows.length === 0) {
+                        botMessage.textContent = "SQLify: No results found.";
+                        chatMessages.appendChild(botMessage);
+                        document.getElementById("result-table").innerHTML = "No results found.";
+                    } else {
+                        botMessage.textContent = "SQLify: Here are your results!";
+                        chatMessages.appendChild(botMessage);
+
+                        // Generate the result table
+                        let tableHTML = "<table border='1'><tr>";
+                        data.columns.forEach(col => { tableHTML += `<th>${col}</th>`; });
+                        tableHTML += "</tr>";
+
+                        data.rows.forEach(row => {
+                            tableHTML += "<tr>";
+                            data.columns.forEach(col => { tableHTML += `<td>${row[col]}</td>`; });
+                            tableHTML += "</tr>";
+                        });
+
+                        tableHTML += "</table>";
+                        document.getElementById("result-table").innerHTML = tableHTML;
+                    }
+                } else {
+                    botMessage.textContent = `SQLify: Error - ${data.message}`;
+                    chatMessages.appendChild(botMessage);
+                    document.getElementById("result-table").innerHTML = `<span style="color:red;">Error: ${data.message}</span>`;
+                }
+
+            } catch (error) {
+                console.error("Error:", error);
+                chatMessages.removeChild(processingMessage);
+                
+                const errorMessage = document.createElement("div");
+                errorMessage.className = "chat-message bot";
+                errorMessage.textContent = "SQLify: An error occurred while processing your query.";
+                chatMessages.appendChild(errorMessage);
+            }
+
+            // Clear the input field
+            document.getElementById("query-input").value = "";
+            // Scroll chat to the bottom
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+    </script>
+
+</body>
+</html>
