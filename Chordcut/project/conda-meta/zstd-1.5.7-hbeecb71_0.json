@@ -1,0 +1,142 @@
+{
+  "build": "hbeecb71_0",
+  "build_number": 0,
+  "channel": "https://conda.anaconda.org/conda-forge/win-64",
+  "constrains": [],
+  "depends": [
+    "libzlib >=1.3.1,<2.0a0",
+    "ucrt >=10.0.20348.0",
+    "vc >=14.2,<15",
+    "vc14_runtime >=14.29.30139"
+  ],
+  "extracted_package_dir": "C:\\Users\\Heinzkoshy\\anaconda3\\pkgs\\zstd-1.5.7-hbeecb71_0",
+  "files": [
+    "Library/bin/libzstd.dll",
+    "Library/bin/zstd.dll",
+    "Library/bin/zstd.exe",
+    "Library/include/zdict.h",
+    "Library/include/zstd.h",
+    "Library/include/zstd_errors.h",
+    "Library/lib/cmake/zstd/zstdConfig.cmake",
+    "Library/lib/cmake/zstd/zstdConfigVersion.cmake",
+    "Library/lib/cmake/zstd/zstdTargets-release.cmake",
+    "Library/lib/cmake/zstd/zstdTargets.cmake",
+    "Library/lib/libzstd.lib",
+    "Library/lib/pkgconfig/libzstd.pc",
+    "Library/lib/zstd.lib"
+  ],
+  "fn": "zstd-1.5.7-hbeecb71_0.conda",
+  "license": "BSD-3-Clause",
+  "link": {
+    "source": "C:\\Users\\Heinzkoshy\\anaconda3\\pkgs\\zstd-1.5.7-hbeecb71_0",
+    "type": 1
+  },
+  "md5": "bac46723604a91de9471a5e72f4f9767",
+  "name": "zstd",
+  "package_tarball_full_path": "C:\\Users\\Heinzkoshy\\anaconda3\\pkgs\\zstd-1.5.7-hbeecb71_0.conda",
+  "paths_data": {
+    "paths": [
+      {
+        "_path": "Library/bin/libzstd.dll",
+        "path_type": "hardlink",
+        "sha256": "35071833f7dfbeb942b07c7a11a62e25d114259e78e183a7a722d607a5326b4e",
+        "sha256_in_prefix": "35071833f7dfbeb942b07c7a11a62e25d114259e78e183a7a722d607a5326b4e",
+        "size_in_bytes": 661504
+      },
+      {
+        "_path": "Library/bin/zstd.dll",
+        "path_type": "hardlink",
+        "sha256": "35071833f7dfbeb942b07c7a11a62e25d114259e78e183a7a722d607a5326b4e",
+        "sha256_in_prefix": "35071833f7dfbeb942b07c7a11a62e25d114259e78e183a7a722d607a5326b4e",
+        "size_in_bytes": 661504
+      },
+      {
+        "_path": "Library/bin/zstd.exe",
+        "path_type": "hardlink",
+        "sha256": "324eff54ca4d97f24c93ae9204c812996f9c4237695402fa4f1bcc7ff4f44658",
+        "sha256_in_prefix": "324eff54ca4d97f24c93ae9204c812996f9c4237695402fa4f1bcc7ff4f44658",
+        "size_in_bytes": 161280
+      },
+      {
+        "_path": "Library/include/zdict.h",
+        "path_type": "hardlink",
+        "sha256": "abacadb94e3f79e591f4b1648e839b0160fbf4291211fd01bdba1380269b245c",
+        "sha256_in_prefix": "abacadb94e3f79e591f4b1648e839b0160fbf4291211fd01bdba1380269b245c",
+        "size_in_bytes": 26516
+      },
+      {
+        "_path": "Library/include/zstd.h",
+        "path_type": "hardlink",
+        "sha256": "9b4bc8245565c98ccfc61c07749928b57e7c0f6fddb0530c4f6aa1971893d88b",
+        "sha256_in_prefix": "9b4bc8245565c98ccfc61c07749928b57e7c0f6fddb0530c4f6aa1971893d88b",
+        "size_in_bytes": 181748
+      },
+      {
+        "_path": "Library/include/zstd_errors.h",
+        "path_type": "hardlink",
+        "sha256": "66a8c3f71d12ea6e797e4f622f31f3f8f81c41b36f48cad4f5de7d8bfb6aac0a",
+        "sha256_in_prefix": "66a8c3f71d12ea6e797e4f622f31f3f8f81c41b36f48cad4f5de7d8bfb6aac0a",
+        "size_in_bytes": 4278
+      },
+      {
+        "_path": "Library/lib/cmake/zstd/zstdConfig.cmake",
+        "path_type": "hardlink",
+        "sha256": "c8b13fa0c852ab8a2ec1878e724aa36ee0c878051d74dcf90eb22cd5172b132f",
+        "sha256_in_prefix": "c8b13fa0c852ab8a2ec1878e724aa36ee0c878051d74dcf90eb22cd5172b132f",
+        "size_in_bytes": 1086
+      },
+      {
+        "_path": "Library/lib/cmake/zstd/zstdConfigVersion.cmake",
+        "path_type": "hardlink",
+        "sha256": "d17deaf5d1a66e670685dbe7ec59712e61723614c788285e202b848dcc7324b4",
+        "sha256_in_prefix": "d17deaf5d1a66e670685dbe7ec59712e61723614c788285e202b848dcc7324b4",
+        "size_in_bytes": 2827
+      },
+      {
+        "_path": "Library/lib/cmake/zstd/zstdTargets-release.cmake",
+        "path_type": "hardlink",
+        "sha256": "a526853fae83669bf1a3bfc37c1e5fb9a6813d60ab3e66b0903825ee95125672",
+        "sha256_in_prefix": "a526853fae83669bf1a3bfc37c1e5fb9a6813d60ab3e66b0903825ee95125672",
+        "size_in_bytes": 928
+      },
+      {
+        "_path": "Library/lib/cmake/zstd/zstdTargets.cmake",
+        "path_type": "hardlink",
+        "sha256": "0c0ec7732567083e8113f0b1e5924f7cde26c31200da306aa523324f136d8a37",
+        "sha256_in_prefix": "0c0ec7732567083e8113f0b1e5924f7cde26c31200da306aa523324f136d8a37",
+        "size_in_bytes": 4512
+      },
+      {
+        "_path": "Library/lib/libzstd.lib",
+        "path_type": "hardlink",
+        "sha256": "45579211dbfca2cc78d9ce6f60defd61ea9b4c4a26cd1d82488f6fe5f4c57a2e",
+        "sha256_in_prefix": "45579211dbfca2cc78d9ce6f60defd61ea9b4c4a26cd1d82488f6fe5f4c57a2e",
+        "size_in_bytes": 45308
+      },
+      {
+        "_path": "Library/lib/pkgconfig/libzstd.pc",
+        "file_mode": "text",
+        "path_type": "hardlink",
+        "prefix_placeholder": "D:/bld/zstd-split_1740024275336/_h_env",
+        "sha256": "b0254ec94795b7e39fdcd5c66adbc494ad33b121b76b53209fcebf632928cd46",
+        "sha256_in_prefix": "c9b3818f0dbf528b0e38ae0a11a50fa0b3894626b9a98c4696e82f7c9554fac0",
+        "size_in_bytes": 508
+      },
+      {
+        "_path": "Library/lib/zstd.lib",
+        "path_type": "hardlink",
+        "sha256": "45579211dbfca2cc78d9ce6f60defd61ea9b4c4a26cd1d82488f6fe5f4c57a2e",
+        "sha256_in_prefix": "45579211dbfca2cc78d9ce6f60defd61ea9b4c4a26cd1d82488f6fe5f4c57a2e",
+        "size_in_bytes": 45308
+      }
+    ],
+    "paths_version": 1
+  },
+  "requested_spec": "None",
+  "sha256": "0d162df20a547072234b2716bc7b5f8e8d111f70a2eff29b739761d49c63d135",
+  "size": 352853,
+  "subdir": "win-64",
+  "timestamp": 1740024721000,
+  "url": "https://conda.anaconda.org/conda-forge/win-64/zstd-1.5.7-hbeecb71_0.conda",
+  "version": "1.5.7"
+}

@@ -1,0 +1,342 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+  
+      <title>Chordcut</title>
+      <meta name="keywords" content="">
+      <meta name="description" content="">
+      <meta name="author" content="">
+
+      <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+
+      <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+      <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      <style>
+   
+    .audio-separation {
+   background: linear-gradient(135deg, #1a1a2e, #777777);
+   color: #fff;
+   padding: 60px 0;
+   border-radius: 10px;
+}
+
+.audio-separation .titlepage {
+   margin-bottom: 30px;
+}
+
+.audio-separation h2 {
+   font-size: 28px;
+   font-weight: bold;
+   color: #fff;
+}
+
+.audio-separation p {
+   font-size: 16px;
+   color: #dcdcdc;
+}
+
+.audio-separation .form-group {
+   margin-bottom: 20px;
+}
+
+.audio-separation label {
+   font-size: 16px;
+   display: block;
+   margin-bottom: 8px;
+   color: #ddd;
+}
+
+.audio-separation input, 
+.audio-separation select {
+   width: 100%;
+   padding: 12px;
+   font-size: 16px;
+   border: none;
+   border-radius: 6px;
+   background: #2d2d44;
+   color: #fff;
+   outline: none;
+}
+
+.audio-separation select {
+   cursor: pointer;
+}
+
+.audio-separation .btn-submit {
+   width: 100%;
+   padding: 12px;
+   font-size: 18px;
+   background: #ff4b5c;
+   border: none;
+   border-radius: 6px;
+   color: #fff;
+   cursor: pointer;
+   transition: 0.3s;
+}
+
+.audio-separation .btn-submit:hover {
+   background: #e03e50;
+}
+
+.audio-separation audio {
+   margin-top: 20px;
+   width: 100%;
+   background: #fff;
+   border-radius: 8px;
+}
+
+      </style>
+   </head>
+
+   <body class="main-layout">
+ 
+      <div class="loader_bg">
+         <div class="loader"><img src="{% static 'images/loading.gif' %}" alt="" /></div>
+      </div>
+      <div id="mySidepanel" class="sidepanel">
+         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+         <a href="{% url 'home_page'%}">Home</a>
+         <a class="active" href="{% url 'seprate_page'%}">Separate Music</a>
+         <a href="{% url 'remix_page'%}">Remix Music</a>
+         <a href="{% url 'combaine_page'%}">Combain Music</a>
+
+        
+      </div>
+      <header>
+         <div class="head-top">
+            <div class="container-fluid">
+               <div class="row d_flex">
+                  <div class="col-sm-3">
+                     <div class="logo">
+                        <a href="index.html"><img src="{% static 'images/logo.png' %}" /></a>
+                     </div>
+                  </div>
+                  <div class="col-sm-9">
+                     <ul class="email text_align_right">
+                        <li class="d_none"> <a href="javascript:void(0)"><i class="fa fa-user" aria-hidden="true"></i>
+                           LOGOUT</a>
+                        </li>
+                        <li> <button class="openbtn" onclick="openNav()"><img src="{% static 'images/menu_btn.png' %}"></button></li>
+                     </ul>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </header>
+
+      <div id="top_section" class="banner_main">
+         <div class="container">
+            <div class="row d_flex">
+               <div class="col-md-6">
+                  <div class="airmic">
+                     <h1>The Air Mic</h1>
+                     <p>Create unique remixes by separating music sources into individual components, applying creative effects like pitch shifting, reverb, and echo, and recombining them into high-quality remixed tracks. Upload your music, transform it, and download the final remix effortlessly.</p>
+                     <a class="read_more" href="Javascript:void(0)">Start Remixing</a>
+                  </div>
+               </div>
+               <div class="col-md-6">
+                  <div class="mic_img">
+                     <figure><img src="{% static 'images/right_side.png' %}" alt="#"/></figure>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+     
+      <div class="audio-separation">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="titlepage text_align_center">
+                        <h2>Upload & Get Remix</h2>
+                        <p>Upload two audio files (e.g., vocals and drums) and get a combined remixed version.</p>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- FORM SECTION -->
+            <div id="form-container">
+                <div class="row justify-content-center">
+                    <div class="col-md-6">
+                        <form id="audio-remix-form" enctype="multipart/form-data" method="post" action="{% url 'audio_remix' %}">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="audioFile1">Upload Vocals:</label>
+                                <input type="file" id="audioFile1" name="audioFile1" accept=".wav" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="audioFile2">Upload Drums:</label>
+                                <input type="file" id="audioFile2" name="audioFile2" accept=".wav" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="remixOption">Select Remix Option:</label>
+                                <select id="remixOption" name="remixOption" required>
+                                    <option value="pitch_shift">Pitch Shift</option>
+                                    <option value="hpss">Harmonic/Percussive Separation</option>
+                                    <option value="echo">Echo</option>
+                                    <option value="all">All</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn-submit">Get Remix</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+    
+            <div id="loading" class="text_align_center" style="display: none;">
+                <p>Processing audio... Please wait.</p>
+            </div>
+    
+            <div id="result-container" style="display: none;">
+                <div class="row">
+                    <div class="col-md-12 text_align_center">
+                        <h3>Remixed Audio</h3>
+                        <audio id="audioPlayer" controls style="display: none;">
+                            <source id="audioSource" src="" type="audio/wav">
+                            Your browser does not support the audio element.
+                        </audio>
+                        <br>
+                        <a id="downloadLink" href="" download class="btn btn-primary" style="display: none;">Download Remix</a>
+                        <br><br>
+                        <button id="resetButton" class="btn btn-secondary">Upload Another File</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.getElementById("audio-remix-form").addEventListener("submit", function (event) {
+            event.preventDefault(); // Prevent default form submission
+
+            let formData = new FormData(this);
+
+            // Hide form and show loading indicator
+            document.getElementById("form-container").style.display = "none";
+            document.getElementById("loading").style.display = "block";
+
+            fetch("{% url 'audio_combine' %}", {
+                method: "POST",
+                body: formData,
+                headers: {
+                    "X-CSRFToken": "{{ csrf_token }}"
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Failed to process audio");
+                }
+                return response.blob(); // Wait until backend finishes processing
+            })
+            .then(blob => {
+                let url = URL.createObjectURL(blob);
+
+                // Hide loading, show result section
+                document.getElementById("loading").style.display = "none";
+                document.getElementById("result-container").style.display = "block";
+
+                let audioPlayer = document.getElementById("audioPlayer");
+                let audioSource = document.getElementById("audioSource");
+                let downloadLink = document.getElementById("downloadLink");
+
+                audioSource.src = url;
+                audioPlayer.load();
+                audioPlayer.style.display = "block";
+
+                downloadLink.href = url;
+                downloadLink.download = "remixed_audio.wav";
+                downloadLink.textContent = "Download Remix";
+                downloadLink.style.display = "inline-block";
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("Something went wrong while processing your audio.");
+                document.getElementById("form-container").style.display = "block";
+                document.getElementById("loading").style.display = "none";
+            });
+        });
+
+        // Reset the form
+        document.getElementById("resetButton").addEventListener("click", function () {
+            document.getElementById("form-container").style.display = "block";
+            document.getElementById("result-container").style.display = "none";
+        });
+    </script>
+      
+      <footer style="margin-top: 100px;">
+         <div class="footer">
+            <div class="container">
+               <div class="row">
+                  <div class="col-md-12">
+                     <a class="logo_footer"><img src="{% static 'images/logo.png' %}" alt="#"/></a>
+                  </div>
+                  <div class="col-md-5">
+                     <div class="Informa conta">
+                        <h3>Address</h3>
+                        <ul>
+                           <li> Music Remix Inc, 456 Rhythm Road, <br>Suite 202, Kochi, Kerala 682018</li>
+                        </ul>
+                     </div>
+                     <div class="Informa helpful">
+                        <ul>
+                           <li><a href="index.html">Home</a></li>
+                           <li><a href="about.html">About</a></li>
+                           <li><a href="services.html">Services</a></li>
+                           <li><a href="shop.html">Shop</a></li>
+                           <li><a href="contact.html">Contact</a></li>
+                        </ul>
+                     </div>
+                  </div>
+                  <div class="col-md-4">
+                     <div class="Informa conta">
+                        <h3>Contact Us</h3>
+                        <ul>
+                           <li><a href="Javascript:void(0)"> 897648934 </a></li>
+                           <li><a href="Javascript:void(0)"> demo123@gmail.com </a></li>
+                        </ul>
+                     </div>
+                     <ul class="social_icon text_align_center">
+                        <li><a href="Javascript:void(0)"><i class="fa fa-facebook-f"></i></a></li>
+                        <li><a href="Javascript:void(0)"><i class="fa fa-twitter"></i></a></li>
+                        <li><a href="Javascript:void(0)"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                     </ul>
+                  </div>
+                  <div class="col-md-3">
+                     <div class="Informa">
+                        <h3>Newsletter</h3>
+                        <form class="newslatter_form">
+                           <input class="ente" placeholder="Enter your email" type="text" name="Enter your email">
+                           <button class="subs_btn">Subscribe</button>
+                        </form>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="copyright text_align_center">
+               <div class="container">
+                  <div class="row">
+                     <div class="col-md-10 offset-md-1">
+                        <p>© 2025 All Rights Reserved. Design by Music Remix</a></p>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </footer>
+      
+
+      <script src="{% static 'js/jquery.min.js' %}"></script>
+      <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+      <script src="{% static 'js/jquery-3.0.0.min.js' %}"></script>
+      <script src="{% static 'js/custom.js' %}"></script>
+   </body>
+</html>

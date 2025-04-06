@@ -1,0 +1,228 @@
+{
+  "build": "py39haa95532_0",
+  "build_number": 0,
+  "channel": "https://repo.anaconda.com/pkgs/main/win-64",
+  "constrains": [],
+  "depends": [
+    "python >=3.9,<3.10.0a0"
+  ],
+  "extracted_package_dir": "C:\\Users\\DELL\\anaconda3\\pkgs\\filelock-3.13.1-py39haa95532_0",
+  "files": [
+    "Lib/site-packages/filelock-3.13.1.dist-info/INSTALLER",
+    "Lib/site-packages/filelock-3.13.1.dist-info/METADATA",
+    "Lib/site-packages/filelock-3.13.1.dist-info/RECORD",
+    "Lib/site-packages/filelock-3.13.1.dist-info/REQUESTED",
+    "Lib/site-packages/filelock-3.13.1.dist-info/WHEEL",
+    "Lib/site-packages/filelock-3.13.1.dist-info/direct_url.json",
+    "Lib/site-packages/filelock-3.13.1.dist-info/licenses/LICENSE",
+    "Lib/site-packages/filelock/__init__.py",
+    "Lib/site-packages/filelock/__pycache__/__init__.cpython-39.pyc",
+    "Lib/site-packages/filelock/__pycache__/_api.cpython-39.pyc",
+    "Lib/site-packages/filelock/__pycache__/_error.cpython-39.pyc",
+    "Lib/site-packages/filelock/__pycache__/_soft.cpython-39.pyc",
+    "Lib/site-packages/filelock/__pycache__/_unix.cpython-39.pyc",
+    "Lib/site-packages/filelock/__pycache__/_util.cpython-39.pyc",
+    "Lib/site-packages/filelock/__pycache__/_windows.cpython-39.pyc",
+    "Lib/site-packages/filelock/__pycache__/version.cpython-39.pyc",
+    "Lib/site-packages/filelock/_api.py",
+    "Lib/site-packages/filelock/_error.py",
+    "Lib/site-packages/filelock/_soft.py",
+    "Lib/site-packages/filelock/_unix.py",
+    "Lib/site-packages/filelock/_util.py",
+    "Lib/site-packages/filelock/_windows.py",
+    "Lib/site-packages/filelock/py.typed",
+    "Lib/site-packages/filelock/version.py",
+    ".nonadmin"
+  ],
+  "fn": "filelock-3.13.1-py39haa95532_0.conda",
+  "legacy_bz2_md5": "7d3be07c7a852377d467f747356cc196",
+  "license": "Unlicense",
+  "license_family": "Public-Domain",
+  "link": {
+    "source": "C:\\Users\\DELL\\anaconda3\\pkgs\\filelock-3.13.1-py39haa95532_0",
+    "type": 1
+  },
+  "md5": "5f729dd8da651e6dbd685585ae9dd83d",
+  "name": "filelock",
+  "package_tarball_full_path": "C:\\Users\\DELL\\anaconda3\\pkgs\\filelock-3.13.1-py39haa95532_0.conda",
+  "paths_data": {
+    "paths": [
+      {
+        "_path": "Lib/site-packages/filelock-3.13.1.dist-info/INSTALLER",
+        "path_type": "hardlink",
+        "sha256": "d0edee15f91b406f3f99726e44eb990be6e34fd0345b52b910c568e0eef6a2a8",
+        "sha256_in_prefix": "d0edee15f91b406f3f99726e44eb990be6e34fd0345b52b910c568e0eef6a2a8",
+        "size_in_bytes": 5
+      },
+      {
+        "_path": "Lib/site-packages/filelock-3.13.1.dist-info/METADATA",
+        "path_type": "hardlink",
+        "sha256": "822ecbc86f9d12e381642df6c227be38e1b43a43d91c006c9fdad7bf1b9095c0",
+        "sha256_in_prefix": "822ecbc86f9d12e381642df6c227be38e1b43a43d91c006c9fdad7bf1b9095c0",
+        "size_in_bytes": 2784
+      },
+      {
+        "_path": "Lib/site-packages/filelock-3.13.1.dist-info/RECORD",
+        "path_type": "hardlink",
+        "sha256": "0ce3e049fb05ece2b727861f57c2e8dee1e97fe68421650e3ae65e443a3f4893",
+        "sha256_in_prefix": "0ce3e049fb05ece2b727861f57c2e8dee1e97fe68421650e3ae65e443a3f4893",
+        "size_in_bytes": 1639
+      },
+      {
+        "_path": "Lib/site-packages/filelock-3.13.1.dist-info/REQUESTED",
+        "path_type": "hardlink",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sha256_in_prefix": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_in_bytes": 0
+      },
+      {
+        "_path": "Lib/site-packages/filelock-3.13.1.dist-info/WHEEL",
+        "path_type": "hardlink",
+        "sha256": "f5006e1e183a14d5bb969a5ba05daf2956c2193573b05ca48114238e56a3ae10",
+        "sha256_in_prefix": "f5006e1e183a14d5bb969a5ba05daf2956c2193573b05ca48114238e56a3ae10",
+        "size_in_bytes": 87
+      },
+      {
+        "_path": "Lib/site-packages/filelock-3.13.1.dist-info/direct_url.json",
+        "path_type": "hardlink",
+        "sha256": "316c223e82b5f2b6d90c8caec28b8ee55af2f0de4cbb5dd038cb32a47ef88b03",
+        "sha256_in_prefix": "316c223e82b5f2b6d90c8caec28b8ee55af2f0de4cbb5dd038cb32a47ef88b03",
+        "size_in_bytes": 88
+      },
+      {
+        "_path": "Lib/site-packages/filelock-3.13.1.dist-info/licenses/LICENSE",
+        "path_type": "hardlink",
+        "sha256": "88d9b4eb60579c191ec391ca04c16130572d7eedc4a86daa58bf28c6e14c9bcd",
+        "sha256_in_prefix": "88d9b4eb60579c191ec391ca04c16130572d7eedc4a86daa58bf28c6e14c9bcd",
+        "size_in_bytes": 1210
+      },
+      {
+        "_path": "Lib/site-packages/filelock/__init__.py",
+        "path_type": "hardlink",
+        "sha256": "c00559ffdffedd8d78c73ceea519390534d17b01497a4476bdff68231e0cef9d",
+        "sha256_in_prefix": "c00559ffdffedd8d78c73ceea519390534d17b01497a4476bdff68231e0cef9d",
+        "size_in_bytes": 1213
+      },
+      {
+        "_path": "Lib/site-packages/filelock/__pycache__/__init__.cpython-39.pyc",
+        "path_type": "hardlink",
+        "sha256": "ae31b29ad79c74796ba99debe312b9504e7cd8d3a97be9bc320b38870587dff0",
+        "sha256_in_prefix": "ae31b29ad79c74796ba99debe312b9504e7cd8d3a97be9bc320b38870587dff0",
+        "size_in_bytes": 1026
+      },
+      {
+        "_path": "Lib/site-packages/filelock/__pycache__/_api.cpython-39.pyc",
+        "path_type": "hardlink",
+        "sha256": "ab5df58748572a0172a925aa51c907cf7694b00b5a35d5bac2546808eba62143",
+        "sha256_in_prefix": "ab5df58748572a0172a925aa51c907cf7694b00b5a35d5bac2546808eba62143",
+        "size_in_bytes": 10539
+      },
+      {
+        "_path": "Lib/site-packages/filelock/__pycache__/_error.cpython-39.pyc",
+        "path_type": "hardlink",
+        "sha256": "098b84835bb58df72112e2f223bcb9783485e174bd6dc494bef98efbc438bd36",
+        "sha256_in_prefix": "098b84835bb58df72112e2f223bcb9783485e174bd6dc494bef98efbc438bd36",
+        "size_in_bytes": 1390
+      },
+      {
+        "_path": "Lib/site-packages/filelock/__pycache__/_soft.cpython-39.pyc",
+        "path_type": "hardlink",
+        "sha256": "ef6731e1b9d341fab79d4b35fa1586483a40e0c0e9f435fb6c77cb18bc76224d",
+        "sha256_in_prefix": "ef6731e1b9d341fab79d4b35fa1586483a40e0c0e9f435fb6c77cb18bc76224d",
+        "size_in_bytes": 1491
+      },
+      {
+        "_path": "Lib/site-packages/filelock/__pycache__/_unix.cpython-39.pyc",
+        "path_type": "hardlink",
+        "sha256": "9e97bc9259dc7962c75b80bbd311c8b33e7633130b6dba1219b6076c5c1ebf45",
+        "sha256_in_prefix": "9e97bc9259dc7962c75b80bbd311c8b33e7633130b6dba1219b6076c5c1ebf45",
+        "size_in_bytes": 2049
+      },
+      {
+        "_path": "Lib/site-packages/filelock/__pycache__/_util.cpython-39.pyc",
+        "path_type": "hardlink",
+        "sha256": "08a6b835972d3421ce2ccadd5c05ab869adc5951d435ff7217f86be8cd3471a1",
+        "sha256_in_prefix": "08a6b835972d3421ce2ccadd5c05ab869adc5951d435ff7217f86be8cd3471a1",
+        "size_in_bytes": 1419
+      },
+      {
+        "_path": "Lib/site-packages/filelock/__pycache__/_windows.cpython-39.pyc",
+        "path_type": "hardlink",
+        "sha256": "d69db5a1333847afb7dc4e6a97bf844a5ca38dc475b586dfd3691a24f25484e5",
+        "sha256_in_prefix": "d69db5a1333847afb7dc4e6a97bf844a5ca38dc475b586dfd3691a24f25484e5",
+        "size_in_bytes": 2055
+      },
+      {
+        "_path": "Lib/site-packages/filelock/__pycache__/version.cpython-39.pyc",
+        "path_type": "hardlink",
+        "sha256": "fe8057cf8d5073ca529ee3e3825ef2e2de1561d278423cae6a746c0c9d34af06",
+        "sha256_in_prefix": "fe8057cf8d5073ca529ee3e3825ef2e2de1561d278423cae6a746c0c9d34af06",
+        "size_in_bytes": 224
+      },
+      {
+        "_path": "Lib/site-packages/filelock/_api.py",
+        "path_type": "hardlink",
+        "sha256": "52c5563c438e8051f5a51ffa58c9366f985667b9d68543d3e46657f56b98682f",
+        "sha256_in_prefix": "52c5563c438e8051f5a51ffa58c9366f985667b9d68543d3e46657f56b98682f",
+        "size_in_bytes": 11860
+      },
+      {
+        "_path": "Lib/site-packages/filelock/_error.py",
+        "path_type": "hardlink",
+        "sha256": "fb98cc7234eeeb4600bc03b551ba830f5188123564c2bf31085c0306d31e6038",
+        "sha256_in_prefix": "fb98cc7234eeeb4600bc03b551ba830f5188123564c2bf31085c0306d31e6038",
+        "size_in_bytes": 787
+      },
+      {
+        "_path": "Lib/site-packages/filelock/_soft.py",
+        "path_type": "hardlink",
+        "sha256": "85aaad73f4c1fca25b62fd9af22b8401c94ab8ce1f306d6f4dca76f2c2bdd7d7",
+        "sha256_in_prefix": "85aaad73f4c1fca25b62fd9af22b8401c94ab8ce1f306d6f4dca76f2c2bdd7d7",
+        "size_in_bytes": 1711
+      },
+      {
+        "_path": "Lib/site-packages/filelock/_unix.py",
+        "path_type": "hardlink",
+        "sha256": "5621b7f0f809b08853df1680aee82fc344cf3fa556a0fd95263ec51085b2a648",
+        "sha256_in_prefix": "5621b7f0f809b08853df1680aee82fc344cf3fa556a0fd95263ec51085b2a648",
+        "size_in_bytes": 2157
+      },
+      {
+        "_path": "Lib/site-packages/filelock/_util.py",
+        "path_type": "hardlink",
+        "sha256": "7410e5223d5d1cbfe3b975f442aaba6d9b72139dd865337c18586dc93574e37a",
+        "sha256_in_prefix": "7410e5223d5d1cbfe3b975f442aaba6d9b72139dd865337c18586dc93574e37a",
+        "size_in_bytes": 1708
+      },
+      {
+        "_path": "Lib/site-packages/filelock/_windows.py",
+        "path_type": "hardlink",
+        "sha256": "78c28bf1d64aae07a47f9558546475e1a9f6f4918422746d50ef2e8bd001cb08",
+        "sha256_in_prefix": "78c28bf1d64aae07a47f9558546475e1a9f6f4918422746d50ef2e8bd001cb08",
+        "size_in_bytes": 2177
+      },
+      {
+        "_path": "Lib/site-packages/filelock/py.typed",
+        "path_type": "hardlink",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sha256_in_prefix": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_in_bytes": 0
+      },
+      {
+        "_path": "Lib/site-packages/filelock/version.py",
+        "path_type": "hardlink",
+        "sha256": "a75fb15112ce496b8b41511dfe7cdb4b8c2b0bb0878a5e2294b9df19fabaf373",
+        "sha256_in_prefix": "a75fb15112ce496b8b41511dfe7cdb4b8c2b0bb0878a5e2294b9df19fabaf373",
+        "size_in_bytes": 166
+      }
+    ],
+    "paths_version": 1
+  },
+  "requested_spec": "None",
+  "sha256": "4c09f8399a0e2d34f030a64f62681a409ecb8c95fd44f1cc2cc8f8ed18cba06a",
+  "size": 21814,
+  "subdir": "win-64",
+  "timestamp": 1700591339232,
+  "url": "https://repo.anaconda.com/pkgs/main/win-64/filelock-3.13.1-py39haa95532_0.conda",
+  "version": "3.13.1"
+}
