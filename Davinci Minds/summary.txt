@@ -1,0 +1,11 @@
+# Adding and Subtracting Fractions
+
+## Adding Two Fractions
+- **Method:** Find a common denominator by multiplying the denominators. Multiply the numerator of each fraction by the denominator of the other fraction. Add the resulting numerators, keeping the common denominator.  Example: 3/5 + 4/7 = (3*7 + 4*5) / (5*7) = 41/35
+
+## Subtracting Two Fractions
+- **Method:** Similar to addition; find a common denominator by multiplying the denominators. Multiply the numerator of each fraction by the denominator of the other fraction. Subtract the resulting numerators, keeping the common denominator. Example: 7/8 - 2/9 = (7*9 - 2*8) / (8*9) = 47/72
+
+## Adding and Subtracting Three or More Fractions
+- **Finding the Least Common Denominator (LCD):** List multiples of each denominator and find the smallest common multiple.  Alternatively, multiply all denominators together to find a common denominator (though this may require simplification later).
+- **Method:** Find the LCD (or a common denominator). Convert each fraction to an equivalent fraction with the LCD as the denominator. Add or subtract the numerators, keeping the common denominator.  Example: 3/4 + 5/3 - 7/2 = (9 + 20 - 42

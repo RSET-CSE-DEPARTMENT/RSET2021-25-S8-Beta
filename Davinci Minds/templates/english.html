@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English - ADHD Learning Platform</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7fb;
+            color: #333;
+        }
+
+        header {
+            background-color: #10B981; /* Green background */
+            color: white;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 3rem;
+            margin: 0;
+            font-weight: 600;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #10B981; /* Green color for headings */
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .section {
+            margin-bottom: 50px;
+        }
+
+        .section h2 {
+            margin-bottom: 25px;
+            font-size: 1.8rem;
+            border-bottom: 3px solid #10B981;
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+
+        .uploaded-files {
+            list-style-type: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .uploaded-files li {
+            background-color: #f9fafb;
+            padding: 25px;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .uploaded-files li:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .uploaded-files li a {
+            text-decoration: none;
+            color: #10B981; /* Green color for file links */
+            font-weight: 600;
+        }
+
+        .upload-section {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .upload-section input {
+            display: block;
+            margin: 20px auto;
+            padding: 12px;
+            width: 80%;
+            max-width: 450px;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 16px;
+            background-color: #fff;
+        }
+
+        .upload-section button {
+            padding: 15px 35px;
+            background-color: #10B981; /* Green button */
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s, transform 0.3s;
+            margin-top: 20px;
+        }
+
+        .upload-section button:hover {
+            background-color: #059669;
+            transform: scale(1.05);
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            background-color: #111827;
+            color: white;
+            margin-top: 60px;
+            box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.5rem;
+            }
+
+            .uploaded-files li {
+                flex-direction: column;
+                align-items: flex-start;
+                text-align: left;
+            }
+
+            .upload-section input {
+                width: 90%;
+            }
+
+            .upload-section button {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>English Resources for ADHD Learners</h1>
+    </header>
+
+    <div class="container">
+        <div class="section">
+            <h2>Uploaded Notes</h2>
+            <ul class="uploaded-files">
+                <li><a href="#">Grammar_Rules.pdf</a></li>
+                <li><a href="#">Literature_Analysis.pdf</a></li>
+                <li><a href="#">Vocabulary_Learnings.pdf</a></li>
+            </ul>
+        </div>
+
+        <div class="section upload-section">
+            <h2>Upload New Notes or Videos</h2>
+            <form action="/upload" method="post" enctype="multipart/form-data">
+                <input type="file" name="file" accept=".pdf,.mp4">
+                <button type="submit">Upload</button>
+            </form>
+        </div>
+
+        <div class="section">
+            <h2>Uploaded Videos</h2>
+            <ul class="uploaded-files">
+                <li><a href="#">Grammar_Introduction.mp4</a></li>
+                <li><a href="#">Literature_Themes.mp4</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 ADHD Learning Platform. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>

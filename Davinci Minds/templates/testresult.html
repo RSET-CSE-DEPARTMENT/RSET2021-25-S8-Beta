@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Result</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #69abed, #feb47b);
+            overflow: auto;
+        }
+
+        .container {
+            text-align: center;
+            width: 100%;
+            max-width: 450px;
+            padding: 30px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 50vh;
+        }
+
+        .title {
+            font-size: 2.5rem;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .sub-title {
+            font-size: 1.5rem;
+            color: #555;
+            margin-bottom: 25px;
+            font-weight: 500;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .button {
+            padding: 14px 20px;
+            background-color: #ff6f61;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease-in-out;
+            text-decoration: none;
+        }
+
+        .button:hover {
+            background-color: #e2574e;
+            transform: scale(1.05);
+        }
+
+        /* New styles for answers */
+        .results {
+            text-align: left;
+            margin: 20px 0;
+            max-height: 300px; /* Optional: Limit height with scrolling */
+            overflow-y: auto;
+        }
+
+        .question {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .answer {
+            margin-bottom: 15px;
+        }
+
+        .correct {
+            color: green;
+        }
+
+        .incorrect {
+            color: red;
+        }
+        .options-list {
+            margin: 10px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .option {
+            padding: 8px;
+            margin: 5px 0;
+            border-radius: 4px;
+        }
+
+        .user-selected {
+            background: #ffe3e3;
+            border: 2px solid #dc3545;
+        }
+
+        .correct-option {
+            background: #e3ffe3;
+            border: 2px solid #28a745;
+        }
+
+        .option-label {
+            font-weight: bold;
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title">Test Result</div>
+        <br>
+        <div class="sub-title">Your Score: {{ score }}</div>
+
+        <!-- Display answers -->
+        <div class="results">
+            {% for result in results %}
+                <div class="question">
+                    Q{{ loop.index }}: {{ result.question }}
+                </div>
+                <div class="options-list">
+                    {% for option in result.options %}
+                        {% set option_letter = ['a', 'b', 'c', 'd'][loop.index0] %}
+                        {% set is_user_answer = option_letter == result.user_answer[0].lower() %}
+                        {% set is_correct_answer = option_letter == result.correct_answer[0].lower() %}
+                        
+                        <div class="option 
+                            {% if is_user_answer %}user-selected{% endif %}
+                            {% if is_correct_answer %}correct-option{% endif %}">
+                            
+                            <span class="option-label">{{ option_letter }})</span>
+                            {{ option }}
+                            
+                            {% if is_user_answer and not is_correct_answer %}
+                                <span class="incorrect">✗ Your answer</span>
+                            {% endif %}
+                            
+                            {% if is_correct_answer %}
+                                <span class="correct">✓ Correct answer</span>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="button-container">
+            <a href="{{ url_for('home2') }}" class="button">Home</a>
+        </div>
+    </div>
+</body>
+</html>

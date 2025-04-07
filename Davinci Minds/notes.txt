@@ -1,0 +1,30 @@
+# Adding and Subtracting Fractions ➕➖
+## Finding a Common Denominator 🤝
+- 🍕  The bottom number (denominator) needs to be the same before adding or subtracting. Think of it like having pizza slices – you need slices of the same size to combine them!
+- 🍰 Imagine adding 1/2 a cake and 1/4 a cake. You need to cut the 1/2 cake into quarters to know the total.
+- 🤔  To find the common denominator, sometimes you can just multiply the denominators together; other times, find the smallest number that both denominators can divide into (the least common multiple).
+
+
+## Adding Fractions ➕
+- ➕ First, find a common denominator (bottom number).
+- ➕ Then, add the top numbers (numerators) only.
+- 🍕 Example: 1/2 + 1/4 = 2/4 + 1/4 = 3/4 (We made 1/2 into 2/4!)
+
+
+## Subtracting Fractions ➖
+- ➖ Find a common denominator (same as adding!).
+- ➖ Subtract the top numbers (numerators).
+- 🍰 Example: 3/4 - 1/4 = 2/4 (Simple subtraction!)
+
+
+# Adding and Subtracting Three or More Fractions ➕➖
+##  Finding the Least Common Denominator (LCD) 🔎
+- 🧱  If you have three or more fractions, find the smallest number that all the denominators divide into.
+- 🔢  List the multiples of each denominator until you find one in common.  Example: Multiples of 2: 2, 4, 6, 8, 12... Multiples of 3: 3, 6, 9, 12...  The least common multiple is 12.
+- 🤔  If finding the LCD is tricky, just multiply all the denominators together! This works but might need simplifying later.
+
+
+## Adding/Subtracting with LCD 👍
+- ➕➖ Once you have the LCD, change each fraction to have that denominator.  Remember to do the same to the top number!
+- ➕➖ Add or subtract the numerators, keeping the denominator the same.
+- 🍕 Example:  1/2 + 1/3 +

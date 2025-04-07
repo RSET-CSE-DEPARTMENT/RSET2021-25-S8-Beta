@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video Learning Platform</title>
+  <style>
+    /* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%; /* Ensure full height of the page */
+    overflow: hidden; /* Prevent unwanted scrollbars */
+    font-family: 'Arial', sans-serif;
+    background-color: #f7f8fc;
+    color: #333;
+}
+
+/* Main Header */
+.header {
+    background-color: #5a67d8;
+    color: #fff;
+    padding: 15px 20px;
+}
+
+.header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.header .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.header .nav a {
+    margin-left: 15px;
+    color: #fff;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.header .nav a:hover {
+    color: #c3c8ff;
+}
+
+/* Secondary Header (Menu Bar) */
+.secondary-header {
+    background-color: #4c51bf;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 10px 0;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.menu-button {
+    padding: 12px 25px;
+    font-size: 1.1rem;
+    color: #ffffff;
+    background-color: #5a67d8;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.menu-button:hover {
+    background-color: #434190;
+    transform: translateY(-2px);
+}
+
+/* Main Content */
+.main-content.container {
+    display: flex;
+    width: 100%;
+    height: calc(100vh - 160px); /* Full height minus header and secondary header */
+    margin: 0;
+    padding: 0;
+    border-radius: 0; /* Ensure no rounded edges */
+    overflow: hidden; /* Prevent overflow and scrollbars */
+}
+
+/* Left Section: Video Player */
+.video-section {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 50px;
+}
+
+.video-player {
+    width: 70%;
+    height: 90%;
+    max-width: 90%;
+    max-height: 100%;
+    border: 4px solid #5a67d8;
+    border-radius: 10px;
+    background-color: #f7f8fc;
+    object-fit: contain;
+}
+
+/* Right Section: Content Display */
+.content-section {
+    flex: 0;
+    width: 0%; /* Initially hidden */
+    transition: width 0.3s ease;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.content-item {
+    display: none;
+    background-color: #ffffff;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.content-item.active {
+    display: block;
+}
+
+/* Close Button */
+.close-button {
+    background-color: #ff6347;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.close-button:hover {
+    background-color: #e05342;
+}
+
+/* Footer */
+.footer {
+    background-color: #5a67d8;
+    color: #fff;
+    text-align: center;
+    padding: 10px 20px;
+}
+
+.footer a {
+    color: #c3c8ff;
+    text-decoration: none;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
+
+.fps-display {
+            color: #004080;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+
+
+
+
+
+
+
+        #video-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        #video {
+            width: 60%; 
+        }
+
+        #webcam {
+            position: absolute;
+            top: 700px;
+            right: 1550px;
+            width: 15%; 
+            border: 2px solid #000;
+        }
+
+  </style>
+</head>
+<body>
+  <!-- Main Header Section -->
+  <header class="header">
+    <div class="container">
+      <h1 class="logo">DaVinciMinds</h1>
+      <nav class="nav">
+        <a href="{{ url_for('home2') }}">Home</a>
+        <a href="{{ url_for('profile') }}">Student profile</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Secondary Header with Buttons -->
+  <div class="secondary-header">
+    <!-- <button id="generate-notes" class="menu-button">Generate Notes</button> 
+    <button id="generate-flowchart" class="menu-button">Generate Mindmap</button> 
+    <button id="generate-summary" class="menu-button">Generate Assignments</button>   -->
+<a href="{{ url_for('notes') }}" class="menu-button">Generate Notes</a>  
+<a href="{{ url_for('autonotes') }}" class="menu-button">Generate Notes2</a>
+<a href="{{ url_for('mcq') }}" class="menu-button">Generate Assignments</a>
+
+  </div>
+
+
+
+
+<!-- <div class="fps-display" id="fps">FPS: --</div> -->
+<div class="fps-display" id="at">Attention lost for: --</div>
+
+
+  <!-- Main Content -->
+  <div class="main-content container">
+    <!-- Left Section: Video Player -->
+    <div id="video-section" class="video-section">
+      <video controls class="video-player">
+    <!--    <source src="../static/test.mp4" type="video/mp4"> -->
+<source src="{{ url_for('static', filename='uploads/' + filename) }}" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+    
+    <!-- Right Section: Content Display -->
+    <div id="content-section" class="content-section">
+      <div id="notes-content" class="content-item">
+        <button class="close-button" onclick="closeContent()">Close</button>
+        <p>Click a button to generate notes from the video.</p>
+      </div>
+      <div id="flowchart-content" class="content-item">
+        <button class="close-button" onclick="closeContent()">Close</button>
+        <p>Click a button to generate a flowchart from the video.</p>
+      </div>
+      <div id="summary-content" class="content-item">
+        <button class="close-button" onclick="closeContent()">Close</button>
+        <p>Click a button to generate a summary of the video.</p>
+      </div>
+    </div>
+  </div>
+
+
+<img id="webcam" src="{{ url_for('video_stream') }}" />
+
+
+
+
+
+
+
+
+  <!-- Footer Section -->
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2025 DaVinciMinds. All Rights Reserved.</p>
+      <p>Contact us at <a href="mailto:info@learnfocus.com">info@learnfocus.com</a></p>
+    </div>
+  </footer>
+
+  <script>
+    window.alert("your attention is being monitored through your camera")
+
+    //mcq
+      document.addEventListener("DOMContentLoaded", function() {
+          document.getElementById("generate-mcq").addEventListener("click", function() {
+              fetch("/generate_mcq", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+              })
+              .then(response => response.json())
+              .then(data => {
+                  if (data.mcqs) {
+                      localStorage.setItem("mcqs", JSON.stringify(data.mcqs));
+                      window.location.href = "/mcq";
+                  } else {
+                      alert("Error generating MCQs");
+                  }
+              })
+              .catch(error => console.error("Error:", error));
+          });
+      });
+      
+
+
+  
+  // Function to show selected content
+  function toggleContent(contentId) {
+    const allContents = document.querySelectorAll('.content-item');
+    allContents.forEach(content => {
+      content.classList.remove('active'); // Hide all content
+    });
+  
+    const selectedContent = document.getElementById(contentId);
+    selectedContent.classList.add('active'); // Show selected content
+  
+    // Show the content section and make space for it
+    const contentSection = document.getElementById('content-section');
+    contentSection.style.width = "40%"; // Make content section 2/5 of the width
+  }
+  
+  // Function to adjust layout when a button is clicked
+  function adjustLayout(videoRatio, contentRatio) {
+    const videoSection = document.getElementById('video-section');
+    const contentSection = document.getElementById('content-section');
+  
+    // Adjust the width of the video and content sections
+    videoSection.style.flex = videoRatio;
+    contentSection.style.flex = contentRatio;
+  }
+  
+  // Close content and return to initial layout
+  function closeContent() {
+    const allContents = document.querySelectorAll('.content-item');
+    allContents.forEach(content => {
+      content.classList.remove('active');
+    });
+  
+    // Reset layout to initial state
+    const contentSection = document.getElementById('content-section');
+    contentSection.style.width = "0%"; // Hide content section
+    const videoSection = document.getElementById('video-section');
+    videoSection.style.flex = "300"; // Video takes full width again
+  }
+ 
+
+function updateFPS() {
+            fetch('/fps')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('fps').innerText = "FPS: " + data.fps.toFixed(2);
+                });
+}
+ setInterval(updateFPS, 50); // Update FPS every 50ms
+
+
+function updateAT() {
+            fetch('/at')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('at').innerText = "Attention lost for " + (data.at / 30).toFixed(2) + " seconds";
+                });
+}
+ setInterval(updateAT, 50); // Update AT every 50ms
+  </script>
+</body>
+</html>

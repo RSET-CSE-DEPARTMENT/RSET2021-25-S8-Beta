@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video Learning Platform</title>
+  <style>
+    /* General Reset */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body, html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: 'Arial', sans-serif;
+        background-color: #f7f8fc;
+        color: #333;
+        overflow-x: hidden; /* Prevent horizontal scroll */
+    }
+
+    /* Main Header */
+    .header {
+        background-color: #5a67d8;
+        color: #fff;
+        padding: 15px 20px;
+        position: relative;
+        z-index: 10;
+    }
+
+    .header .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 100%;
+    }
+
+    .header .logo {
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+
+    .header .nav a {
+        margin-left: 15px;
+        color: #fff;
+        text-decoration: none;
+        font-size: 1rem;
+        transition: color 0.3s ease;
+    }
+
+    .header .nav a:hover {
+        color: #c3c8ff;
+    }
+
+    /* Secondary Header (Menu Bar) */
+    .secondary-header {
+        background-color: #4c51bf;
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        padding: 10px 0;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        z-index: 10;
+    }
+
+    .menu-button {
+        padding: 12px 25px;
+        font-size: 1.1rem;
+        color: #ffffff;
+        background-color: #5a67d8;
+        border: none;
+        border-radius: 30px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .menu-button:hover {
+        background-color: #434190;
+        transform: translateY(-2px);
+    }
+
+    /* Main Content */
+    .main-content.container {
+        display: flex;
+        width: 100vw;
+        min-height: calc(100vh - 110px); /* Min height to account for header and footer */
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+    }
+
+    /* Video Section */
+    .video-section {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        position: relative;
+        overflow: hidden;
+        min-height: 60vh; /* Ensure section has enough height */
+    }
+
+    .fps-display {
+        color: #004080;
+        font-size: 1.2rem;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    #video-container {
+        position: relative;
+        width: 70%; /* Reduced width to 70% of container */
+        max-width: 800px; /* Cap at 800px */
+        height: 60vh; /* Reduced height to 60vh */
+        max-height: 500px; /* Cap at 500px */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #video {
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        border: 4px solid #5a67d8;
+        border-radius: 10px;
+        background-color: #f7f8fc;
+        z-index: 1; /* Ensure iframe is below webcam */
+    }
+
+    /* Repositioned Webcam outside video-container */
+    #webcam {
+        position: absolute;
+        bottom: 20px;
+        right: 20px; /* Adjusted to be relative to video-section */
+        width: 15%;
+        max-width: 200px;
+        max-height: 150px;
+        border: 2px solid #000;
+        object-fit: cover;
+        z-index: 2; /* Ensure webcam is above iframe */
+    }
+
+    /* Content Section */
+    .content-section {
+        flex: 0;
+        width: 0;
+        transition: width 0.3s ease;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+    }
+
+    .content-item {
+        display: none;
+        background-color: #ffffff;
+        padding: 20px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .content-item.active {
+        display: block;
+    }
+
+    /* Close Button */
+    .close-button {
+        background-color: #ff6347;
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: background-color 0.3s ease;
+    }
+
+    .close-button:hover {
+        background-color: #e05342;
+    }
+
+    /* Footer */
+    .footer {
+        background-color: #5a67d8;
+        color: #fff;
+        text-align: center;
+        padding: 10px 20px;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        z-index: 10;
+    }
+
+    .footer a {
+        color: #c3c8ff;
+        text-decoration: none;
+    }
+
+    .footer a:hover {
+        text-decoration: underline;
+    }
+
+    /* Game Container */
+    #game-container {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1000;
+        background-color: rgba(0, 0, 0, 0.8);
+        padding: 20px;
+        border-radius: 10px;
+        width: 90vw;
+        max-width: 900px; /* Reduced from 1000px */
+    }
+
+    #game-container.active {
+        display: block;
+    }
+
+    #game-iframe {
+        width: 100%;
+        height: 60vh; /* Reduced height to 60vh */
+        max-height: 500px; /* Cap at 500px */
+        border: none;
+        border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Main Header Section -->
+  <header class="header">
+    <div class="container">
+      <h1 class="logo">DaVinciMinds</h1>
+      <nav class="nav">
+        <a href="{{ url_for('home2') }}">Home</a>
+        <a href="{{ url_for('profile') }}">Student profile</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="secondary-header">
+    <a href="{{ url_for('video_to_text2') }}" class="menu-button">Generate Mindmap and Summary</a>  
+    <a href="{{ url_for('youtubeautonotes') }}" class="menu-button">Generate Notes</a>
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <select id="subject-select" class="menu-button" style="padding: 12px; background-color: #5a67d8; border: none; border-radius: 30px; color: white;">
+        <option value="science">Science</option>
+        <option value="english">English</option>
+        <option value="math">Math</option>
+      </select>
+      <button id="generate-assignments" class="menu-button">Generate Assignments</button>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content container">
+    <div class="video-section">
+      <div class="fps-display" id="at">Attention lost for: --</div>
+      <div id="video-container">
+        <iframe id="video" src="https://www.youtube.com/embed/{{ video_id }}?enablejsapi=1" allowfullscreen></iframe>
+      </div>
+      <img id="webcam" src="{{ url_for('video_stream') }}" /> <!-- Moved outside video-container -->
+    </div>
+    <div id="content-section" class="content-section">
+      <div id="notes-content" class="content-item">
+        <button class="close-button" onclick="closeContent()">Close</button>
+        <p>Click a button to generate notes from the video.</p>
+      </div>
+      <div id="flowchart-content" class="content-item">
+        <button class="close-button" onclick="closeContent()">Close</button>
+        <p>Click a button to generate a flowchart from the video.</p>
+      </div>
+      <div id="summary-content" class="content-item">
+        <button class="close-button" onclick="closeContent()">Close</button>
+        <p>Click a button to generate a summary of the video.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Game Container -->
+  <div id="game-container">
+    <h1>Responsive Game</h1>
+    <div class="gameWrapper">
+      <iframe id="game-iframe" src="" allowfullscreen></iframe>
+    </div>
+  </div>
+
+  <!-- Footer Section -->
+  <footer class="footer">
+    <div class="container">
+      <p>© 2025 DaVinciMinds. All Rights Reserved.</p>
+      <p>Contact us at <a href="/cdn-cgi/l/email-protection#85ecebe3eac5e9e0e4f7ebe3eae6f0f6abe6eae8">[email protected]</a></p>
+    </div>
+  </footer>
+  <script>
+     // New script for Generate Mindmap and Summary button
+  document.getElementById('generate-mindmap-summary').addEventListener('click', function() {
+    fetch("{{ url_for('video_to_text2') }}")
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Failed to generate summary');
+        }
+        // After summary is generated, redirect to mindmap
+        window.location.href = "{{ url_for('youtube_mindmap') }}";
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('Failed to generate mind map and summary. Check the console for details.');
+      });
+  });
+  </script>
+
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+  <script>
+    document.getElementById('generate-assignments').addEventListener('click', function() {
+      const subject = document.getElementById('subject-select').value;
+      fetch('/generate_mcq', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ subject: subject })
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        if (data.error) {
+          alert(data.error);
+        } else {
+          window.location.href = "{{ url_for('mcq') }}";
+        }
+      })
+      .catch(error => {
+        console.error('Error generating MCQs:', error);
+        alert('Failed to generate MCQs. Check the console for details.');
+      });
+    });
+
+    let gameTimeout = null;
+    const games = [
+      "https://www.jopi.com/embed.php?game=go-up-dash",
+      "https://codepen.io/HunorMarton/embed/JwWLJo",
+      "https://codepen.io/ste-vg/embed/ppLQNW"
+    ];
+
+    window.alert("Your attention is being monitored through your camera");
+
+    // YouTube Player API
+  let player;
+  function onYouTubeIframeAPIReady() {
+    player = new YT.Player('video', {
+      events: {
+        'onReady': onPlayerReady
+      }
+    });
+  }
+
+  function onPlayerReady(event) {
+    event.target.playVideo();
+  }
+
+
+    function toggleContent(contentId) {
+      const allContents = document.querySelectorAll('.content-item');
+      allContents.forEach(content => content.classList.remove('active'));
+      const selectedContent = document.getElementById(contentId);
+      selectedContent.classList.add('active');
+      const contentSection = document.getElementById('content-section');
+      contentSection.style.width = "40%";
+      adjustLayout("1", "1"); // Adjust flex ratios
+    }
+
+    function adjustLayout(videoRatio, contentRatio) {
+      const videoSection = document.getElementById('video-section');
+      const contentSection = document.getElementById('content-section');
+      videoSection.style.flex = videoRatio;
+      contentSection.style.flex = contentRatio;
+    }
+
+    function closeContent() {
+      const allContents = document.querySelectorAll('.content-item');
+      allContents.forEach(content => content.classList.remove('active'));
+      const contentSection = document.getElementById('content-section');
+      contentSection.style.width = "0";
+      const videoSection = document.getElementById('video-section');
+      videoSection.style.flex = "1";
+    }
+
+    function updateAT() {
+      fetch('/at')
+        .then(response => response.json())
+        .then(data => {
+          const atSeconds = (data.at / 30).toFixed(2);
+          document.getElementById('at').innerText = "Attention lost for " + atSeconds + " seconds";
+          if (atSeconds % 10 === 0 && atSeconds > 0) {
+            // Pause YouTube video
+            if(player && typeof player.pauseVideo === 'function') {
+              player.pauseVideo();
+            }
+            
+            const randomIndex = Math.floor(Math.random() * games.length);
+            const selectedGame = games[randomIndex];
+            const gameIframe = document.getElementById('game-iframe');
+            gameIframe.src = selectedGame;
+            document.getElementById('game-container').classList.add('active');
+            
+            if (gameTimeout) clearTimeout(gameTimeout);
+            gameTimeout = setTimeout(() => {
+              document.getElementById('game-container').classList.remove('active');
+              gameIframe.src = '';
+              // Resume video when game closes
+              if(player && typeof player.playVideo === 'function') {
+                player.playVideo();
+              }
+            }, 30000);
+          }
+        })
+        .catch(error => console.error('Error fetching AT:', error));
+    }
+
+    setInterval(updateAT, 50);
+  </script>
+  <script src="https://www.youtube.com/iframe_api"></script>
+</body>
+</html>

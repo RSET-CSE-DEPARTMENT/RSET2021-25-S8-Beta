@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCQ Quiz</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Poppins', sans-serif; /* Modern font */
+            display: flex;
+            flex-direction: column;
+            background: #f0f4f8; /* Softer background color */
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #5a67d8, #7f9cf5); /* Gradient header */
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            flex-shrink: 0;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header .logo {
+            width: 100px;
+            height: 100px;
+            border: 4px solid #ffffff;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.8);
+            margin: 0 auto 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .header .logo:hover {
+            transform: scale(1.05); /* Subtle hover effect */
+        }
+
+        .header .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .header h2 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        /* Main Content Container */
+        .container {
+            text-align: center;
+            width: 100%;
+            max-width: 650px; /* Slightly wider for better readability */
+            padding: 30px;
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            border: 2px solid transparent;
+            background-clip: padding-box;
+            position: relative;
+            flex: 1 0 auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            margin: 20px auto;
+            overflow-y: auto;
+            max-height: calc(100vh - 200px);
+            min-height: 60vh;
+        }
+
+        /* Gradient Border Effect */
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(135deg, #5a67d8, #feb47b);
+            z-index: -1;
+            border-radius: 20px;
+        }
+
+        /* Quiz Content */
+        #mcq-container {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding-bottom: 20px;
+        }
+
+        .question {
+            font-size: 1.3rem;
+            margin: 20px 0 15px;
+            font-weight: 600;
+            color: #2d3748; /* Darker color for contrast */
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .question::before {
+            content: '📝'; /* Add an emoji or icon for visual appeal */
+            font-size: 1.5rem;
+        }
+
+        .options {
+            text-align: left;
+            margin-bottom: 15px;
+        }
+
+        .options label {
+            display: flex;
+            align-items: center;
+            background: #f7fafc; /* Softer background */
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin: 8px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .options label:hover {
+            background: #edf2f7;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .options input[type="radio"] {
+            margin-right: 10px;
+            accent-color: #5a67d8; /* Custom radio button color */
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #ff6f61, #feb47b); /* Gradient button */
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.3rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            flex-shrink: 0;
+            box-shadow: 0 4px 15px rgba(255, 111, 97, 0.3);
+        }
+
+        .submit-btn:hover {
+            background: linear-gradient(135deg, #e2574e, #fd9b63);
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(255, 111, 97, 0.5);
+        }
+
+        .loading {
+            font-size: 1.2rem;
+            color: #2d3748;
+            font-weight: 500;
+        }
+
+        /* Footer */
+        .footer {
+            background: linear-gradient(135deg, #5a67d8, #7f9cf5);
+            color: #fff;
+            text-align: center;
+            padding: 15px 20px;
+            flex-shrink: 0;
+            margin-top: auto;
+            box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .footer a {
+            color: #c3c8ff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: #ffffff;
+            text-decoration: underline;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <img src="../static/images/logo.jpg" alt="Creative Mind Logo">
+        </div>
+        <h2>MCQ Quiz</h2>
+    </header>
+
+    <div class="container">
+        <div id="loading-message" class="loading" style="display: none;">Loading MCQs...</div>
+
+        <form id="quiz-form" action="{{ url_for('submit_quiz') }}" method="POST">
+            <div id="mcq-container">
+                {% if mcqs %}
+                    {% for mcq in mcqs %}
+                        {% set question_index = loop.index0 %}
+                        <div class="question">
+                            <p>Q{{ loop.index }}: {{ mcq.question }}</p>
+                        </div>
+                        <div class="options">
+                            {% for option in mcq.options %}
+                                {% set option_letter = ['a', 'b', 'c', 'd'][loop.index0] %}
+                                <label>
+                                    <input type="radio" name="q{{ question_index }}" 
+                                           value="{{ option_letter }}" required> 
+                                    {{ option_letter }}) {{ option }}
+                                </label>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p>No MCQs available. Please generate them first.</p>
+                {% endif %}
+            </div>
+            {% if mcqs %}
+                <button type="submit" class="submit-btn">Submit Quiz</button>
+            {% endif %}
+        </form>
+    </div>
+
+    <footer class="footer">
+        <p>© 2025 DaVinciMinds. All Rights Reserved.</p>
+        <p>Contact us at <a href="/cdn-cgi/l/email-protection#85ecebe3eac5e9e0e4f7ebe3eae6f0f6abe6eae8">[email protected]</a></p>
+    </footer>
+
+    <script>
+        // Ensure the container scrolls to the top on load
+        document.addEventListener("DOMContentLoaded", function() {
+            const mcqContainer = document.getElementById('mcq-container');
+            mcqContainer.scrollTop = 0; // Scroll to top to ensure Q1 is visible
+
+            const container = document.getElementById('mcq-container');
+            const loadingMessage = document.getElementById('loading-message');
+            const submitBtn = document.querySelector('.submit-btn');
+
+            // If no MCQs are pre-loaded, fetch them dynamically
+            if (container.innerHTML.trim() === '<p>No MCQs available. Please generate them first.</p>') {
+                loadingMessage.style.display = 'block';
+                fetch('/generate_mcq', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ subject: 'science' })  // Adjust subject as needed
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.error) {
+                        alert(data.error);
+                        window.location.href = "{{ url_for('home2') }}";
+                        return;
+                    }
+
+                    container.innerHTML = '';
+                    data.mcqs.forEach((mcq, index) => {
+                        const questionDiv = document.createElement('div');
+                        questionDiv.classList.add('question');
+                        questionDiv.innerHTML = `<p>Q${index + 1}: ${mcq.question}</p>`;
+                        
+                        const optionsDiv = document.createElement('div');
+                        optionsDiv.classList.add('options');
+
+                        mcq.options.forEach(option => {
+                            const label = document.createElement('label');
+                            label.innerHTML = `
+                                <input type="radio" name="q${index}" value="${option}" required> ${option}
+                            `;
+                            optionsDiv.appendChild(label);
+                        });
+
+                        container.appendChild(questionDiv);
+                        container.appendChild(optionsDiv);
+                    });
+
+                    loadingMessage.style.display = "none";
+                    if (!submitBtn) {
+                        const newSubmitBtn = document.createElement('button');
+                        newSubmitBtn.type = 'submit';
+                        newSubmitBtn.classList.add('submit-btn');
+                        newSubmitBtn.textContent = 'Submit Quiz';
+                        document.getElementById('quiz-form').appendChild(newSubmitBtn);
+                    }
+
+                    // Scroll to top after loading questions
+                    container.scrollTop = 0;
+                })
+                .catch(error => {
+                    console.error('Error fetching MCQs:', error);
+                    alert("Failed to load MCQs. Please try again.");
+                    window.location.href = "{{ url_for('home2') }}";
+                });
+            }
+        });
+    </script>
+    <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'91e53b421934bc09',t:'MTc0MTYzNTA3Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+</body>
+</html>

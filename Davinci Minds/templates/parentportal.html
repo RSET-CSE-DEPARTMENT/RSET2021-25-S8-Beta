@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADHD Learning Platform - Parent Portal</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Existing CSS styles remain unchanged */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        header {
+            background-color: #5C6BC0;
+            color: white;
+            padding: 20px;
+            text-align: left;
+            position: relative;
+        }
+        .logo {
+            height: 50px;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+        .header-buttons {
+            position: absolute;
+            top: 20px;
+            right: 10px;
+        }
+        .logout-btn {
+            background-color: #FF7043;
+            color: white;
+            padding: 10px 20px;
+            font-size: 1.1em;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .logout-btn:hover {
+            background-color: #FF5722;
+        }
+        .logout-btn:focus {
+            outline: none;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .progress-section {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+        }
+        .card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            flex: 1;
+            margin: 10px;
+            text-align: center;
+            background-color: #f9f9f9;
+        }
+        .card h3 {
+            margin-bottom: 10px;
+            color: #6c63ff;
+        }
+        .charts-section {
+            margin: 20px 0;
+        }
+        canvas {
+            margin: 20px auto;
+            display: block;
+            /* Increase the size of the canvas */
+            width: 100% !important;
+            height: 400px !important; /* Increase height for better visibility */
+            max-width: 1000px !important; /* Allow a larger max-width */
+        }
+        footer {
+            text-align: center;
+            padding: 10px 20px;
+            background-color: #6c63ff;
+            color: white;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="{{ url_for('static', filename='images/logo.jpg') }}" alt="Platform Logo" class="logo">
+        <h1>ADHD Learning Platform - Parent Portal</h1>
+        <div class="header-buttons">
+            <form action="{{ url_for('landing2') }}" method="POST">
+                <button type="submit" class="logout-btn">Logout</button>
+            </form>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>Welcome, {{parent}}</h1>
+        <p>Track your child's progress and engage with their learning activities.</p>
+
+        <div class="progress-section">
+            <div class="card">
+                <h3>Attention Monitoring</h3>
+                <p>Focus Level: {{ focus_level }}%</p>
+                <p>Engagement: {{ 'High' if focus_level >= 70 else 'Medium' if focus_level >= 40 else 'Low' }}</p>
+
+                <h4>Recent Attention Data</h4>
+                <ul>
+                    {% for data in attention_data %}
+                    <li>Date: {{ data.date }} - Attention Lost Frames: {{ data.attention }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="charts-section">
+            <h2>Performance Analytics: {{student}}</h2>
+
+            <h3>Overall Attention Variation</h3>
+            <canvas id="attentionChart"></canvas>
+
+            <h3>Individual Subject Performance</h3>
+            <canvas id="subjectChart"></canvas>
+        </div>
+    </div>
+
+    <footer>
+        © 2025 ADHD Learning Platform. All Rights Reserved.
+    </footer>
+
+    <script>
+        const attentionData = {{ attention_data | tojson | safe }};
+        const mathData = {{ math_data | tojson | safe }};
+        const scienceData = {{ science_data | tojson | safe }};
+        const englishData = {{ english_data | tojson | safe }};
+
+        // Attention Chart Configuration
+        const attentionCtx = document.getElementById('attentionChart').getContext('2d');
+        const attentionChart = new Chart(attentionCtx, {
+            type: 'line',
+            data: {
+                labels: attentionData.map(data => data.date),
+                datasets: [{
+                    label: 'Attention Lost (frames)',
+                    data: attentionData.map(data => data.attention),
+                    borderColor: '#6c63ff',
+                    backgroundColor: 'rgba(108, 99, 255, 0.2)',
+                    tension: 0.4,
+                    pointRadius: 5,
+                    pointHoverRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { 
+                        display: true,
+                        position: 'top'
+                    },
+                    tooltip: {
+                        mode: 'nearest',
+                        intersect: false,
+                        callbacks: {
+                            title: (context) => `Date: ${context[0].label}`,
+                            label: (context) => `Attention Lost: ${context.parsed.y} frames`
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Attention Lost (frames)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                },
+                hover: {
+                    mode: 'nearest',
+                    intersect: true
+                }
+            }
+        });
+
+        // Subject Performance Chart Configuration
+        const allDates = [...new Set([
+            ...mathData.map(data => data.date),
+            ...scienceData.map(data => data.date),
+            ...englishData.map(data => data.date)
+        ])].sort();
+
+
+        function alignData(subjectData, dates) {
+            const dataMap = new Map(subjectData.map(item => [item.date, item.score]));
+            return dates.map(date => dataMap.has(date) ? dataMap.get(date) : NaN);
+        }
+
+        const subjectCtx = document.getElementById('subjectChart').getContext('2d');
+        const subjectChart = new Chart(subjectCtx, {
+            type: 'line',
+            data: {
+                labels: allDates,
+                datasets: [
+                    {
+                        label: 'Math',
+                        data: alignData(mathData, allDates),
+                        borderColor: '#f4a261',
+                        backgroundColor: 'rgba(244, 162, 97, 0.2)',
+                        tension: 0.4,
+                        pointRadius: 5,
+                        pointHoverRadius: 8,
+                        spanGaps: true,  // Connect across missing data
+                        segment: {
+                            borderColor: ctx => ctx.p0.parsed.y === ctx.p1.parsed.y ? '#f4a261' : '#f4a261'
+                        }
+                    },
+                    {
+                        label: 'Science',
+                        data: alignData(scienceData, allDates),
+                        borderColor: '#2a9d8f',
+                        backgroundColor: 'rgba(42, 157, 143, 0.2)',
+                        tension: 0.4,
+                        pointRadius: 5,
+                        pointHoverRadius: 8,
+                        spanGaps: true,
+                        segment: {
+                            borderColor: ctx => ctx.p0.parsed.y === ctx.p1.parsed.y ? '#2a9d8f' : '#2a9d8f'
+                        }
+                    },
+                    {
+                        label: 'English',
+                        data: alignData(englishData, allDates),
+                        borderColor: '#e76f51',
+                        backgroundColor: 'rgba(231, 111, 81, 0.2)',
+                        tension: 0.4,
+                        pointRadius: 5,
+                        pointHoverRadius: 8,
+                        spanGaps: true,
+                        segment: {
+                            borderColor: ctx => ctx.p0.parsed.y === ctx.p1.parsed.y ? '#e76f51' : '#e76f51'
+                        }
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    },
+                    tooltip: {
+                        mode: 'nearest',
+                        intersect: false,
+                        callbacks: {
+                            title: (context) => `Date: ${context[0].label}`,
+                            label: (context) => {
+                                const value = context.parsed.y;
+                                return isNaN(value) ? 
+                                    `${context.dataset.label}: No data` : 
+                                    `${context.dataset.label}: ${value}/5`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        min: 0,
+                        max: 5,
+                        ticks: {
+                            stepSize: 1
+                        },
+                        title: {
+                            display: true,
+                            text: 'Score (out of 5)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                },
+                elements: {
+                    line: {
+                        cubicInterpolationMode: 'monotone'
+                    }
+                },
+                hover: {
+                    mode: 'nearest',
+                    intersect: true
+                }
+            }
+        });
+    </script>
+</body>
+</html>

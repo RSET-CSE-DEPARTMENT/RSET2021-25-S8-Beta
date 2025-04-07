@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generated MCQs</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .mcq-container {
+            max-width: 600px;
+            margin: auto;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+        .mcq {
+            margin-bottom: 20px;
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+        }
+        .correct {
+            font-weight: bold;
+            color: green;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Generated Multiple-Choice Questions</h2>
+    <div class="mcq-container" id="mcqContainer">
+        <p>Loading MCQs...</p>
+    </div>
+
+    <script>
+        // Fetch MCQs from Flask JSON endpoint
+        fetch('/get_mcq_json')
+            .then(response => response.json())
+            .then(data => {
+                const container = document.getElementById('mcqContainer');
+                container.innerHTML = '';  // Clear loading text
+                
+                if (data.error) {
+                    container.innerHTML = `<p>Error: ${data.error}</p>`;
+                    return;
+                }
+
+                data.forEach((mcq, index) => {
+                    const mcqElement = document.createElement('div');
+                    mcqElement.classList.add('mcq');
+                    mcqElement.innerHTML = `
+                        <p><strong>Q${index + 1}:</strong> ${mcq.question}</p>
+                        <ul>
+                            <li>A) ${mcq.options[0]}</li>
+                            <li>B) ${mcq.options[1]}</li>
+                            <li>C) ${mcq.options[2]}</li>
+                            <li>D) ${mcq.options[3]}</li>
+                        </ul>
+                        <p class="correct">Correct Answer: ${mcq.correct}</p>
+                    `;
+                    container.appendChild(mcqElement);
+                });
+            })
+            .catch(error => {
+                document.getElementById('mcqContainer').innerHTML = `<p>Error fetching MCQs</p>`;
+            });
+    </script>
+
+</body>
+</html>

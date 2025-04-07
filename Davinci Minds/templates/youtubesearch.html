@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Video Search</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #69abed, #feb47b);
+            overflow: hidden; /* Prevent body scroll */
+        }
+    
+        .container {
+            text-align: center;
+            width: 90%; /* Reduced from 100% for better margins */
+            max-width: 1200px; /* Reduced from 2000px for better fit */
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            margin: 20px auto; /* Center with margin */
+            max-height: 90vh; /* Limit container height */
+            overflow-y: auto; /* Enable vertical scroll when needed */
+            display: flex;
+            flex-direction: column;
+        }
+    
+        .logo {
+            width: 200px; /* Reduced size */
+            height: 100px;
+            border: 5px solid #ffffff;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.8);
+            margin: 0 auto 20px;
+            flex-shrink: 0; /* Prevent logo from shrinking */
+        }
+    
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    
+        h2 {
+            color: #333;
+            margin: 10px 0;
+            flex-shrink: 0;
+        }
+    
+        .search-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin: 20px 0;
+            flex-shrink: 0;
+        }
+    
+        .search-container input {
+            width: 70%;
+            padding: 12px;
+            border: 2px solid #69abed;
+            border-radius: 25px;
+            font-size: 16px;
+            outline: none;
+            transition: 0.3s;
+        }
+    
+        .search-container input:focus {
+            border-color: #feb47b;
+            box-shadow: 0 0 10px rgba(255, 165, 0, 0.5);
+        }
+    
+        .search-container button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 25px;
+            background: linear-gradient(135deg, #69abed, #feb47b);
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+    
+        .search-container button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+    
+        #results {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 10px;
+            flex-grow: 1; /* Allow results to take available space */
+            overflow-y: auto; /* Scroll within results if needed */
+        }
+    
+        .video {
+            width: 280px; /* Fixed width for consistency */
+            margin: 0; /* Remove default margin */
+            text-align: left;
+        }
+    
+        img {
+            width: 100%; /* Full width of .video container */
+            height: auto;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+    
+        #player {
+            margin-top: 20px;
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <img src="../static/images/logo.jpg" alt="Creative Mind Logo"> 
+        </div>
+        <h2>Search and Play YouTube Videos</h2>
+        <form method="POST" class="search-container">
+            <input type="text" name="search" placeholder="Search for a video..." required>
+            <button type="submit">Search</button>
+        </form>
+
+        <div id="results">
+            {% for video in videos %}
+                <div class="video">
+                    <h3>{{ video.title }}</h3>
+                    <img src="{{ video.thumbnail }}" onclick="window.location.href='/play2/{{ video.videoId }}'">
+
+                </div>
+            {% endfor %}
+        </div>
+
+        <div id="player" style="margin-top: 20px;">
+            <iframe id="youtube-player" width="560" height="315" style="display:none;"></iframe>
+        </div>
+    </div>
+
+    <script>
+        function playVideo(videoId) {
+            let player = document.getElementById("youtube-player");
+            player.src = "https://www.youtube.com/embed/" + videoId;
+            player.style.display = "block";
+        }
+    </script>
+</body>
+</html>
+

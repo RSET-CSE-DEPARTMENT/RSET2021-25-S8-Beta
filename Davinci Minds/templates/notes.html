@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #69abed, #feb47b);
+            overflow: auto;
+        }
+
+        .container {
+            text-align: center;
+            width: 80%;
+            max-width: 800px;
+            padding: 30px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .logo {
+            width: 150px;
+            height: 150px;
+            border: 5px solid #ffffff;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.8);
+            margin: 0 auto 20px;
+        }
+
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .title {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .notes {
+            text-align: left;
+            font-size: 1.2rem;
+            color: #444;
+            line-height: 1.6;
+        }
+
+        .back-btn {
+            width: 150px;
+            padding: 12px;
+            background-color: #ff6f61;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease-in-out;
+            margin-top: 20px;
+            align-self: center;
+        }
+
+        .back-btn:hover {
+            background-color: #e2574e;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <img src="../static/images/logo.jpg" alt="Creative Mind Logo"> 
+        </div>
+
+        <div class="title">Summary</div>
+
+        <div class="notes">
+            <p>- {{notes}}</p>
+        </div>
+
+        <button onclick="location.href='{{ url_for('youtube_mindmap') }}'" class="back-btn" >Generate Mindmap</button>
+    </div>
+    
+</body>
+</html>
+

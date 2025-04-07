@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Notes</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #64748b;
+            --accent: #f8fafc;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --background: #f1f5f9;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.5;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        .container {
+            background: var(--white);
+            width: 100%;
+            max-width: 1200px;
+            min-height: 90vh;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .header {
+            padding: 2rem;
+            background: var(--white);
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .logo {
+            width: 48px;
+            height: 48px;
+            border-radius: 0.75rem;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo svg {
+            width: 24px;
+            height: 24px;
+            color: var(--white);
+        }
+
+        .title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .notes {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+            background: var(--white);
+        }
+
+        .notes h1 {
+            font-size: 1.875rem;
+            font-weight: 600;
+            color: var(--text);
+            margin: 1.5rem 0 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .notes h2 {
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: var(--text);
+            margin: 1.25rem 0 0.75rem;
+        }
+
+        .notes ul {
+            list-style: none;
+            margin: 1rem 0;
+            padding-left: 1.5rem;
+        }
+
+        .notes li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin: 0.5rem 0;
+            color:rgb(232, 75, 209);
+        }
+
+       
+
+        .button-group {
+            padding: 1.5rem 2rem;
+            background: var(--accent);
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.625rem 1.25rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+        }
+
+        .button-primary {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .button-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .button-secondary {
+            background: var(--white);
+            color: var(--text);
+            border: 1px solid #e2e8f0;
+        }
+
+        .button-secondary:hover {
+            background: var(--accent);
+        }
+
+        .button svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                min-height: 100vh;
+                border-radius: 0;
+            }
+
+            .header {
+                padding: 1.5rem;
+            }
+
+            .notes {
+                padding: 1.5rem;
+            }
+
+            .button-group {
+                padding: 1rem 1.5rem;
+                flex-wrap: wrap;
+            }
+
+            .button {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+            </div>
+            <h1 class="title"> Notes</h1>
+        </header>
+
+        <main class="notes">
+            {{notes2 | replace('# ', '<h1>') | replace('## ', '<h2>') | replace('- ', '<li>') | replace('\n', '</li>\n') | safe}}
+        </main>
+
+        <footer class="button-group">
+            <button class="button button-primary" onclick="downloadNotes()">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+                Save as Text
+            </button>
+            <button class="button button-primary" onclick="downloadPDF()">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                </svg>
+                Save as PDF
+            </button>
+        </footer>
+    </div>
+
+    <script>
+        function downloadNotes() {
+            const notes = document.querySelector('.notes').innerText;
+            const blob = new Blob([notes], { type: 'text/plain;charset=utf-8' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'professional_notes.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }
+
+        function downloadPDF() {
+            const notes = document.querySelector('.notes').innerText;
+            fetch('/download_pdf', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ notes: notes })
+            })
+            .then(response => response.blob())
+            .then(blob => {
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'professional_notes.pdf';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+            })
+            .catch(error => console.error('Error downloading PDF:', error));
+        }
+    </script>
+</body>
+</html>
