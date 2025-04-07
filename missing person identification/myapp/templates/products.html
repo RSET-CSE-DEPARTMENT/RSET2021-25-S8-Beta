@@ -1,0 +1,189 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Missing Person Identification</title>
+    
+    <!-- Bootstrap & CSS -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'assets/css/fontawesome.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/templatemo-sixteen.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/owl.css' %}">
+
+    <style>
+        body {
+            background-image: url('{% static "assets/images/ob.jpg" %}');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        #resultImage, #resultVideo {
+            display: none;
+            margin-top: 20px;
+        }
+        #loadingProgress {
+            display: none;
+            margin-top: 20px;
+            text-align: center;
+            width: 100%;
+        }
+        #progressBar {
+            width: 100%;
+            background-color: #f3f3f3;
+        }
+        #progressBar div {
+            width: 0;
+            height: 20px;
+            background-color: #007bff;
+            text-align: center;
+            color: white;
+            line-height: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <header>
+        <nav class="navbar navbar-expand-lg">
+            <div class="container">
+                <a class="navbar-brand" href="{% url 'index' %}"><h2>Missing Person<em>Identification</em></h2></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Home</a></li> 
+                        <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About Us</a></li>
+                        <li class="nav-item active"><a class="nav-link" id="{% url 'products' %}" href="#">Make Detection</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'index' %}" id="logoutLink">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container" style="padding-top: 100px;">
+        <h2 class="text-center">Object Detection using YOLO</h2><br>
+        
+        <!-- Upload Form -->
+        <form id="uploadForm" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row justify-content-center">
+                <!-- Image Upload -->
+                <div class="col-md-5 text-center">
+                    <h5>Select Image File</h5>
+                    <input type="file" id="imageUpload" class="btn btn-primary" accept="image/*">
+                    <br><br>
+                    <img id="outputImage" src="" class="img-fluid" style="max-width: 100%; height: auto; display: none;">
+                </div>
+
+                <!-- Video Upload -->
+                <div class="col-md-5 text-center">
+                    <h5>Select Video File</h5>
+                    <input type="file" id="videoUpload" class="btn btn-primary" accept="video/*">
+                    <br><br>
+                    <video id="outputVideo" controls class="img-fluid" style="max-width: 100%; height: auto; display: none;"></video>
+                </div>
+            </div>
+        </form>
+
+        <br>
+        <div class="text-center">
+            <button id="detectButton" class="btn btn-success">Detect</button>
+            <button id="tryAgainButton" class="btn btn-secondary" style="display:none; margin-left: 10px;">Try Again</button>
+        </div>
+
+        <div id="loadingProgress" class="text-center">
+            <h4>Processing... Please wait.</h4>
+            <div id="progressBar">
+                <div id="progressBarFill">0%</div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="inner-content">
+                <p>&copy;  2025 Missing Person Identification System. All Rights Reserved.
+                <a rel="nofollow noopener" href="https://templatemo.com" target="_blank"></a></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+    <!-- jQuery & Bootstrap -->
+    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+    <script>
+        function getCSRFToken() {
+            return document.querySelector('[name=csrfmiddlewaretoken]').value;
+        }
+
+        function previewImage(event) {
+            var reader = new FileReader();
+            reader.onload = function() {
+                document.getElementById('outputImage').src = reader.result;
+                $('#outputImage').show();
+            }
+            reader.readAsDataURL(event.target.files[0]);
+        }
+
+        function previewVideo(event) {
+            var file = event.target.files[0];
+            var url = URL.createObjectURL(file);
+            document.getElementById('outputVideo').src = url;
+            $('#outputVideo').show();
+        }
+
+        document.getElementById("imageUpload").addEventListener("change", previewImage);
+        document.getElementById("videoUpload").addEventListener("change", previewVideo);
+
+        $('#detectButton').click(function() {
+            var formData = new FormData();
+            formData.append('image', $('#imageUpload')[0].files[0]);
+            formData.append('video', $('#videoUpload')[0].files[0]);
+
+            $.ajax({
+                url: "{% url 'detect' %}",
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                headers: {
+                    "X-CSRFToken": getCSRFToken()
+                },
+                beforeSend: function() {
+                    $('#loadingProgress').show();
+                    $('#progressBarFill').css('width', '0%').text('0%');
+                },
+                xhr: function() {
+                    var xhr = new window.XMLHttpRequest();
+                    xhr.upload.addEventListener('progress', function(event) {
+                        if (event.lengthComputable) {
+                            var percentComplete = Math.round((event.loaded / event.total) * 100);
+                            $('#progressBarFill').css('width', percentComplete + '%').text(percentComplete + '%');
+                        }
+                    }, false);
+                    return xhr;
+                },
+                success: function(response) {
+                    $('#loadingProgress').hide();
+                    alert(response.detected ? 'Person detected in video!' : 'Person NOT found in video.');
+                    window.location.href = '/';
+                },
+                error: function() {
+                    $('#loadingProgress').hide();
+                    alert('Failed to process the image or video.');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

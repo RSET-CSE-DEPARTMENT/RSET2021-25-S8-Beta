@@ -1,0 +1,142 @@
+{% load static %} 
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="About Detectify - AI-Powered Missing Person Identification">
+    <meta name="author" content="Detectify Team">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+    <title>About Us - Detectify</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'assets/css/fontawesome.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/templatemo-sixteen.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/owl.css' %}">
+  </head>
+
+  <body>
+
+    <!-- Header -->
+    <header>
+      <nav class="navbar navbar-expand-lg">
+        <div class="container">
+          <a class="navbar-brand" href="{% url 'index' %}"><h2>Detecti<em>fy</em></h2></a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'index' %}">Home</a>
+              </li> 
+              <li class="nav-item active">
+                <a class="nav-link" href="{% url 'about' %}">About Us</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="yoloLink" href="">YOLO Detection</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="" id="logoutLink">Logout</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Page Heading -->
+    <div class="page-heading about-heading header-text">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="text-content">
+            <h4>Transforming CCTV Surveillance</h4>
+            <h2>About Us</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br><br>
+    
+    <!-- About Section -->
+    <section class="about-us">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6">
+            <img src="{% static 'assets/images/about_.jpg' %}" class="img-fluid rounded" alt="About Detectify">
+          </div>
+          <div class="col-lg-6">
+            <div class="right-content">
+              <h4>Our Mission</h4>
+              <p>At Detectify, we harness the power of **AI-driven face recognition** and **real-time YOLO-based surveillance** to help identify missing persons. Our system analyzes **CCTV footage**, detects faces, and matches them against a reference database, enabling law enforcement and organizations to track individuals efficiently.</p>
+              <p>We aim to make **public safety proactive** by **reducing response time** in missing person cases. Our advanced deep learning models process large-scale video feeds to **detect, verify, and alert authorities in real-time**.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mt-5">
+          <div class="col-lg-6">
+            <h4>How It Works</h4>
+            <p>Our missing person identification system follows a structured approach:</p>
+            <ul>
+              <li><strong>Face Detection:</strong> Using **YOLOv8 (face.pt)**, the system detects faces in CCTV footage.</li>
+              <li><strong>Feature Extraction:</strong> **DeepFace** extracts facial embeddings for unique identification.</li>
+              <li><strong>Face Matching:</strong> Facial embeddings are compared against an uploaded reference image.</li>
+             
+            </ul>
+          </div>
+          <div class="col-lg-6">
+            <h4>Why Choose Detectify?</h4>
+            <ul>
+              <li><strong>Real-Time Processing:</strong> High-speed AI models analyze video streams in **real-time**.</li>
+              <li><strong>Privacy-First Approach:</strong> No permanent image storage, ensuring **data security**.</li>
+              <li><strong>Seamless Integration:</strong> Works with **existing CCTV systems** for easy deployment.</li>
+              <li><strong>Scalable & Flexible:</strong> Can be adapted for use in **airports, schools, hospitals, and public spaces**.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="inner-content">
+              <p>&copy; 2024 Detectify. All Rights Reserved.
+              <a rel="nofollow noopener" href="https://templatemo.com" target="_blank">Detectify</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+      document.getElementById("logoutLink").addEventListener("click", function() {
+        sessionStorage.clear();  
+        alert("You have been logged out successfully!");  
+      });
+    </script>
+
+    <script>
+      var username = sessionStorage.getItem("username");
+      var yoloLink = document.getElementById("yoloLink");
+      
+      if (username) {
+          yoloLink.href = "";
+      } else {
+          alert("Invalid session. Please log in.");
+          window.location.href = "";
+      }
+    </script>
+
+    <!-- Scripts -->
+    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'assets/js/custom.js' %}"></script>
+    <script src="{% static 'assets/js/owl.js' %}"></script>
+  </body>
+</html>
