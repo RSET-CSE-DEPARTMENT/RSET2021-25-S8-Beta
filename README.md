@@ -1,4 +1,4 @@
-# S8 Main project of RSET2021-25 Alpha batch
+# S8 Main project of RSET2021-25 Beta batch
 This is the official repository to store code done by CSE Alpha students during S8.
 
 ## Disclaimer
