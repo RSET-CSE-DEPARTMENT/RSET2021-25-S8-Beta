@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Danvinci Minds</title>
+  <style>
+    /* General Styles */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f9;
+      color: #333;
+      text-align: center;
+    }
+
+    a {
+      text-decoration: none;
+      color: white;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+
+   
+    header {
+      background-color: #5C6BC0;
+      color: white;
+      padding: 20px 10px;
+      position: relative;
+      text-align: left;
+    }
+
+    .logo {
+      height: 50px;
+      margin-left: 10px;
+      vertical-align: middle;
+    }
+
+    .header-buttons {
+      position: absolute;
+      top: 20px;
+      right: 10px;
+    }
+
+    .user-profile {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 2px solid white;
+      object-fit: cover;
+      cursor: pointer;
+    }
+
+    /* Hero Section */
+    .hero {
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .carousel {
+      position: relative;
+      width: 100%;
+      height: 500px;
+    }
+
+    .carousel img {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: none;
+    }
+
+    .carousel img.active {
+      display: block;
+    }
+
+    .hero-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      text-align: center;
+      z-index: 2;
+    }
+
+    .hero-content h1 {
+      font-size: 3.5em;
+      margin-bottom: 20px;
+    }
+
+    .hero-content p {
+      font-size: 1.5em;
+      margin-bottom: 30px;
+    }
+
+    .hero-content .cta {
+      background-color: #FF7043;
+      color: white;
+      padding: 15px 30px;
+      font-size: 1.1em;
+      border-radius: 5px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    /* Features Section */
+    .features {
+      padding: 50px 20px;
+      text-align: center;
+    }
+
+    .features h2 {
+      font-size: 2em;
+      margin-bottom: 20px;
+      color: #5C6BC0;
+    }
+
+    .features .feature-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .features .feature-item {
+      background-color: #fff;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      border-radius: 8px;
+      width: 250px;
+      text-align: left;
+    }
+
+    .features .feature-item h3 {
+      font-size: 1.2em;
+      margin-bottom: 10px;
+      color: #5C6BC0;
+    }
+
+    /* Footer Styles */
+    footer {
+      background-color: #263238;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    footer a {
+      color: #FF7043;
+      margin: 0 10px;
+    }
+
+
+    .profile-popup {
+      display: none;
+      position: absolute;
+      top: 17px;
+      right: 30px;
+      background: white;
+      padding: 15px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      width: 200px;
+      text-align: center;
+    }
+
+    .profile-popup p {
+      margin: 10px 0;
+      color: #333;
+    }
+
+    .logout-btn {
+      background-color: #FF7043; 
+      color: white;
+      padding: 10px 20px;
+      font-size: 1.1em;
+      border-radius: 10px; 
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .logout-btn:hover {
+      background-color: #FF5722;
+    }
+
+    .logout-btn:focus {
+      outline: none;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="../static/images/logo.jpg" alt="Platform Logo" class="logo">
+    <h1>DaVinci Minds - A complete learning platform for ADHD </h1>
+
+    <div class="header-buttons">
+      <img src="../static/images/user.png" alt="User Profile" class="user-profile" onclick="toggleProfilePopup()">
+      <div id="profilePopup" class="profile-popup">
+        <form action="{{ url_for('profile') }}">
+          <button class="logout-btn">👤 Profile</button>
+        </form>
+        <br>
+        <form action="{{ url_for('logout') }}" method="POST">
+          <button class="logout-btn">Logout</button>
+        </form>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="carousel">
+      <img src="https://www.maetoday.org/sites/mae/files/styles/1200x630/public/2024-02/civics-proficiency-sharply-declined-with-just-22-of-students-making-the-grade_0.png?itok=y1Aok9PO" class="active" alt="Slide 1">
+      <img src="https://www.hurix.com/wp-content/uploads/2021/12/Online-learning-activities.jpg" alt="Slide 2">
+      <img src="https://2716595.fs1.hubspotusercontent-na1.net/hubfs/2716595/childrens-self-regulation_11zon.jpg" alt="Slide 3">
+    </div>
+    <div class="hero-content">
+      <h1>Empowering ADHD Students</h1>
+      <p>Discover a personalized and engaging learning experience designed to support ADHD students with advanced AI and interactive tools.</p>
+      <a href="{{ url_for('youtubesearch') }}" class="cta">Get Started</a>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features">
+    <h2>Key Features</h2>
+    <div class="feature-list">
+      <div class="feature-item">
+        <h3>Attention Monitoring</h3>
+        <p>AI-powered tools to track attention through real-time facial and body posture analysis.</p>
+      </div>
+      <div class="feature-item">
+        <h3>Color-Coded Notes</h3>
+        <p>Organize tasks visually with color-coded assignments and notes.</p>
+      </div>
+      <div class="feature-item">
+        <h3>Rewards System</h3>
+        <p>Encourage learning with positive reinforcement through gamified rewards.</p>
+      </div>
+      <div class="feature-item">
+        <h3>Mindfulness Activities</h3>
+        <p>Re-engage students with calming exercises, games, and creative activities.</p>
+      </div>
+      <div class="feature-item">
+        <h3>Tailored Assignments</h3>
+        <p>Custom assignments and quizzes designed to prevent overwhelm.</p>
+      </div>
+      <div class="feature-item">
+        <h3>Parent Progress Tracker</h3>
+        <p>Monitor your child’s development and adapt strategies for success.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 Interactive ADHD Learning Platform. All rights reserved.</p>
+    <a href="#">Terms of Use</a>
+    <a href="#">Privacy Policy</a>
+  </footer>
+
+  <script>
+    // Slideshow Functionality
+    const slides = document.querySelectorAll('.carousel img');
+    let currentIndex = 0;
+
+    setInterval(() => {
+      slides[currentIndex].classList.remove('active');
+      currentIndex = (currentIndex + 1) % slides.length;
+      slides[currentIndex].classList.add('active');
+    }, 3000); // Change slide every 3 seconds
+
+    function toggleProfilePopup() {
+      var popup = document.getElementById("profilePopup");
+      popup.style.display = (popup.style.display === "block") ? "none" : "block";
+    }
+
+    document.addEventListener("click", function(event) {
+      var popup = document.getElementById("profilePopup");
+      var profileImg = document.querySelector(".user-profile");
+
+      if (!popup.contains(event.target) && event.target !== profileImg) {
+        popup.style.display = "none";
+      }
+    });
+  </script>
+</body>
+</html>
