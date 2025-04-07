@@ -1,0 +1,201 @@
+=== Summary Comparisons ===
+
+=== Instance 1 ===
+
+Sentence BLEU: 0.0045
+  METEOR: 0.0877
+
+Reference Summary (Docstring):
+Makes sure the fast-path emits in order.
+@param value the value to emit or queue up
+@param delayError if true, errors are delayed until the source has terminated
+@param disposable the resource to dispose if the drain terminates
+
+Generated Summary (Comment):
+Emit the provided value to the downstream observer ordered by priority.
+
+==================================================
+
+=== Instance 2 ===
+
+  Sentence BLEU: 0.0012
+  METEOR: 0.0778
+
+Reference Summary (Docstring):
+Wraps an ObservableSource into an Observable if not already an Observable.
+
+<dl>
+<dt><b>Scheduler:</b></dt>
+<dd>{@code wrap} does not operate by default on a particular {@link Scheduler}.</dd>
+</dl>
+
+@param <T> the value type
+@param source the source ObservableSource instance
+@return the new Observable instance or the same as the source
+@throws NullPointerException if source is null
+
+Generated Summary (Comment):
+Wraps an observable source into an Observable that emits the items emitted by the source.
+
+==================================================
+
+=== Instance 3 ===
+
+  Sentence BLEU: 0.0000
+  METEOR: 0.0375
+
+Reference Summary (Docstring):
+Returns an Observable that emits the events emitted by source ObservableSource, in a
+sorted order based on a specified comparison function.
+
+<p>Note that calling {@code sorted} with long, non-terminating or infinite sources
+might cause {@link OutOfMemoryError}
+
+<dl>
+<dt><b>Scheduler:</b></dt>
+<dd>{@code sorted} does not operate by default on a particular {@link Scheduler}.</dd>
+</dl>
+
+@param sortFunction
+a function that compares two items emitted by the source ObservableSource and returns an Integer
+that indicates their sort order
+@return an Observable that emits the items emitted by the source ObservableSource in sorted order
+
+Generated Summary (Comment):
+Sorts the items in the stream according to the specified comparator.
+
+==================================================
+
+=== Instance 4 ===
+
+  Sentence BLEU: 0.0180
+  METEOR: 0.1269
+
+Reference Summary (Docstring):
+Child Observers will observe the events of the ConnectableObservable on the
+specified scheduler.
+@param <T> the value type
+@param co the connectable observable instance
+@param scheduler the target scheduler
+@return the new ConnectableObservable instance
+
+Generated Summary (Comment):
+Returns a new ConnectableObservable that is the same as the given ConnectableObservable except that it emits only the items emitted by the source Observable.
+
+==================================================
+
+=== Instance 5 ===
+
+  Sentence BLEU: 0.0155
+  METEOR: 0.1077
+
+
+Reference Summary (Docstring):
+Creates an UnicastProcessor with the given internal buffer capacity hint.
+@param <T> the value type
+@param capacityHint the hint to size the internal unbounded buffer
+@return an UnicastProcessor instance
+
+Generated Summary (Comment):
+Creates an unicast processor with the specified capacity hint.
+
+==================================================
+
+=== Instance 6 ===
+
+  Sentence BLEU: 0.0001
+  METEOR: 0.0504
+
+Reference Summary (Docstring):
+Creates an UnicastProcessor with the given internal buffer capacity hint and a callback for
+the case when the single Subscriber cancels its subscription.
+
+<p>The callback, if not null, is called exactly once and
+non-overlapped with any active replay.
+
+@param <T> the value type
+@param capacityHint the hint to size the internal unbounded buffer
+@param onCancelled the non null callback
+@return an UnicastProcessor instance
+
+Generated Summary (Comment):
+Creates an unicast processor with the specified capacity hint.
+
+==================================================
+
+=== Instance 7 ===
+
+  Sentence BLEU: 0.0064
+  METEOR: 0.1150
+
+
+Reference Summary (Docstring):
+Tries to subscribe to a possibly Callable source's mapped Publisher.
+@param <T> the input value type
+@param <R> the output value type
+@param source the source Publisher
+@param subscriber the subscriber
+@param mapper the function mapping a scalar value into a Publisher
+@return true if successful, false if the caller should continue with the regular path.
+
+Generated Summary (Comment):
+Subscribes to the result of applying the given function to each element of a Publisher if the source is a Callable.
+
+==================================================
+
+=== Instance 8 ===
+
+  Sentence BLEU: 0.0033
+  METEOR: 0.1123
+
+Reference Summary (Docstring):
+Maps a scalar value into a Publisher and emits its values.
+
+@param <T> the scalar value type
+@param <U> the output value type
+@param value the scalar value to map
+@param mapper the function that gets the scalar value and should return
+a Publisher that gets streamed
+@return the new Flowable instance
+
+Generated Summary (Comment):
+Returns a Flowable that emits the results of applying a function to a single item emitted by the source Publisher.
+
+==================================================
+
+=== Instance 9 ===
+
+  Sentence BLEU: 0.0000
+  METEOR: 0.0407
+
+
+Reference Summary (Docstring):
+Removes all handlers and resets to default behavior.
+
+Generated Summary (Comment):
+Reset all properties to default values.
+
+==================================================
+
+=== Instance 10 ===
+
+  Sentence BLEU: 0.0000
+  METEOR: 0.0407
+
+Reference Summary (Docstring):
+Wraps a CompletableSource into a Maybe.
+
+<dl>
+<dt><b>Scheduler:</b></dt>
+<dd>{@code fromCompletable} does not operate by default on a particular {@link Scheduler}.</dd>
+</dl>
+@param <T> the target type
+@param completableSource the CompletableSource to convert from
+@return the new Maybe instance
+@throws NullPointerException if completable is null
+
+Generated Summary (Comment):
+Creates a Maybe from a Completable source.
+
+==================================================
+
