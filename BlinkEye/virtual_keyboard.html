@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Keyboard - BlinkEye</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            width: 90%;
+            max-width: 1000px;
+            box-shadow: 0 0 20px rgba(0, 204, 255, 0.3);
+        }
+        #typing-area {
+            width: 100%;
+            height: 150px;
+            padding: 15px;
+            font-size: 1.5rem;
+            background: rgba(255, 255, 255, 0.9);
+            color: #000;
+            border: none;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            resize: none;
+            outline: none;
+        }
+        #predictive-text {
+            display: none; /* Hidden by default */
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        #predictive-text.active {
+            display: flex; /* Shown when sub-keyboard is active */
+        }
+        .predictive-word {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 10px;
+            padding: 10px;
+            color: #fff;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        .predictive-word:hover {
+            background: linear-gradient(45deg, #00ccff, #ff00cc);
+            transform: scale(1.05);
+        }
+        .predictive-word:active {
+            transform: scale(0.95);
+        }
+        .keyboard {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        .sub-keyboard {
+            display: none;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .sub-keyboard.active {
+            display: grid;
+        }
+        .key {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 10px;
+            padding: 20px;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .sub-keyboard .key {
+            font-size: 1.5rem;
+            padding: 15px;
+        }
+        .key:hover {
+            background: linear-gradient(45deg, #00ccff, #ff00cc);
+            transform: scale(1.05);
+        }
+        .key:active {
+            transform: scale(0.95);
+        }
+        .space, .caps, .backspace {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        .caps.active {
+            background: linear-gradient(45deg, #00ccff, #ff00cc);
+        }
+        .send-message {
+            background: linear-gradient(45deg, #00cc00, #66ff66);
+        }
+        .send-call {
+            background: linear-gradient(45deg, #00ccff, #66ccff);
+        }
+        .send-buttons {
+            grid-column: span 5; /* Span full width of sub-keyboard */
+            display: flex; /* Align buttons side by side */
+            gap: 10px; /* Space between buttons */
+            justify-content: center; /* Center the buttons */
+        }
+        .send-buttons .send-message,
+        .send-buttons .send-call {
+            flex: 1; /* Equal width for both buttons */
+            max-width: 200px; /* Optional: limit width */
+        }
+        .button-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .back-btn, .back {
+            flex: 1;
+            padding: 15px 30px;
+            background: linear-gradient(45deg, #ff4444, #ff8c00);
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .back {
+            display: none;
+        }
+        .back.active {
+            display: block;
+        }
+        .back-btn:hover, .back:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(255, 68, 68, 0.7);
+        }
+        #gaze-indicator {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: rgba(0, 204, 255, 0.7);
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            display: none;
+        }
+        .progress-circle {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            display: none;
+        }
+        .progress-circle svg { width: 100%; height: 100%; }
+        .progress-circle circle {
+            fill: none;
+            stroke: #ff00cc;
+            stroke-width: 5;
+            stroke-linecap: round;
+            transform-origin: center;
+            transform: rotate(-90deg);
+            transition: stroke-dashoffset 0.1s linear;
+        }
+        #notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 204, 255, 0.8);
+            padding: 10px 20px;
+            border-radius: 5px;
+            color: #fff;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            max-width: 300px;
+            text-align: center;
+        }
+        #notification.active {
+            opacity: 1;
+        }
+        @media (max-width: 768px) {
+            .keyboard {
+                grid-template-columns: 1fr;
+            }
+            .sub-keyboard {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .send-buttons {
+                grid-column: span 3; /* Span 3 columns on smaller screens */
+                flex-direction: row; /* Keep horizontal layout */
+            }
+            .send-buttons .send-message,
+            .send-buttons .send-call {
+                font-size: 1rem; /* Reduce font size */
+                padding: 10px; /* Adjust padding */
+            }
+            .key {
+                padding: 15px;
+                font-size: 1.2rem;
+            }
+            .sub-keyboard .key {
+                padding: 15px;
+                font-size: 1.2rem;
+            }
+            .predictive-word {
+                font-size: 1rem;
+                padding: 8px;
+            }
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <textarea id="typing-area" placeholder="Type here..."></textarea>
+        <div id="predictive-text">
+            <button class="predictive-word" id="word1"></button>
+            <button class="predictive-word" id="word2"></button>
+            <button class="predictive-word" id="word3"></button>
+            <button class="predictive-word" id="word4"></button>
+        </div>
+        <div class="keyboard" id="main-keyboard">
+            <button class="key" data-group="a-i">A-I</button>
+            <button class="key" data-group="j-r">J-R</button>
+            <button class="key" data-group="s-z">S-Z</button>
+            <button class="key" data-group="0-9">0-9</button>
+            <button class="key space">Space</button>
+            <button class="key caps" id="caps-lock">Caps</button>
+            <button class="key backspace">Backspace</button>
+        </div>
+        <div class="sub-keyboard" id="a-i-keys">
+            <button class="key">a</button>
+            <button class="key">b</button>
+            <button class="key">c</button>
+            <button class="key">d</button>
+            <button class="key">e</button>
+            <button class="key">f</button>
+            <button class="key">g</button>
+            <button class="key">h</button>
+            <button class="key">i</button>
+            <button class="key space">Space</button>
+            <button class="key caps" id="caps-lock-ai">Caps</button>
+            <button class="key backspace">Backspace</button>
+            <div class="send-buttons">
+                <button class="key send-message">Send via Message</button>
+                <button class="key send-call">Send via Call</button>
+            </div>
+        </div>
+        <div class="sub-keyboard" id="j-r-keys">
+            <button class="key">j</button>
+            <button class="key">k</button>
+            <button class="key">l</button>
+            <button class="key">m</button>
+            <button class="key">n</button>
+            <button class="key">o</button>
+            <button class="key">p</button>
+            <button class="key">q</button>
+            <button class="key">r</button>
+            <button class="key space">Space</button>
+            <button class="key caps" id="caps-lock-jr">Caps</button>
+            <button class="key backspace">Backspace</button>
+            <div class="send-buttons">
+                <button class="key send-message">Send via Message</button>
+                <button class="key send-call">Send via Call</button>
+            </div>
+        </div>
+        <div class="sub-keyboard" id="s-z-keys">
+            <button class="key">s</button>
+            <button class="key">t</button>
+            <button class="key">u</button>
+            <button class="key">v</button>
+            <button class="key">w</button>
+            <button class="key">x</button>
+            <button class="key">y</button>
+            <button class="key">z</button>
+            <button class="key space">Space</button>
+            <button class="key caps" id="caps-lock-sz">Caps</button>
+            <button class="key backspace">Backspace</button>
+            <div class="send-buttons">
+                <button class="key send-message">Send via Message</button>
+                <button class="key send-call">Send via Call</button>
+            </div>
+        </div>
+        <div class="sub-keyboard" id="0-9-keys">
+            <button class="key">0</button>
+            <button class="key">1</button>
+            <button class="key">2</button>
+            <button class="key">3</button>
+            <button class="key">4</button>
+            <button class="key">5</button>
+            <button class="key">6</button>
+            <button class="key">7</button>
+            <button class="key">8</button>
+            <button class="key">9</button>
+            <button class="key space">Space</button>
+            <button class="key caps" id="caps-lock-09">Caps</button>
+            <button class="key backspace">Backspace</button>
+            <div class="send-buttons">
+                <button class="key send-message">Send via Message</button>
+                <button class="key send-call">Send via Call</button>
+            </div>
+        </div>
+        <div class="button-row">
+            <button class="back" id="back">Back</button>
+            <button class="back-btn" id="back-btn">Back to Menu</button>
+        </div>
+    </div>
+    <div id="gaze-indicator"></div>
+    <div id="progress-circle" class="progress-circle">
+        <svg viewBox="0 0 36 36">
+            <circle cx="18" cy="18" r="16" stroke-dasharray="100" stroke-dashoffset="100" />
+        </svg>
+    </div>
+    <div id="notification"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.1/socket.io.js"></script>
+    <script>
+        const socket = io.connect('http://localhost:5000');
+        const typingArea = document.getElementById('typing-area');
+        const mainKeyboard = document.getElementById('main-keyboard');
+        const predictiveText = document.getElementById('predictive-text');
+        const subKeyboards = {
+            'a-i': document.getElementById('a-i-keys'),
+            'j-r': document.getElementById('j-r-keys'),
+            's-z': document.getElementById('s-z-keys'),
+            '0-9': document.getElementById('0-9-keys')
+        };
+        const capsLocks = {
+            main: document.getElementById('caps-lock'),
+            'a-i': document.getElementById('caps-lock-ai'),
+            'j-r': document.getElementById('caps-lock-jr'),
+            's-z': document.getElementById('caps-lock-sz'),
+            '0-9': document.getElementById('caps-lock-09')
+        };
+        const predictiveWords = [
+            document.getElementById('word1'),
+            document.getElementById('word2'),
+            document.getElementById('word3'),
+            document.getElementById('word4')
+        ];
+        const backBtn = document.getElementById('back-btn');
+        const back = document.getElementById('back');
+        const gazeIndicator = document.getElementById('gaze-indicator');
+        const progressCircle = document.getElementById('progress-circle');
+        const progressRing = progressCircle.querySelector('circle');
+        const notification = document.getElementById('notification');
+        let isCaps = false;
+        let activeSubKeyboard = null;
+
+        // List of emergency and normal conversation sentences
+        const sentences = [
+            "Help me", "I need help", "Call emergency", "I am hurt", "Get doctor", "Please assist", "Water please",
+            "Food now", "Bathroom help", "I feel sick", "Emergency now", "Call family", "I need water", "Help fast",
+            "I am okay", "Thank you", "Yes please", "No thanks", "I want food", "Call nurse", "Pain here",
+            "I need rest", "Turn on light", "Turn off light", "Open door", "Close door", "I am cold", "I am hot",
+            "Need blanket", "Take me out", "Come here", "Go away", "I need medicine", "Call police", "Fire emergency",
+            "I fell down", "Help up", "I am scared", "Talk to me", "Where am I", "What time", "I need air",
+            "Call friend", "I want home", "Stay with me", "I am tired", "Wake me up", "I need chair", "Move me",
+            "I want TV", "Music please", "Quiet now", "Louder please", "Softer now", "I need phone", "Call mom",
+            "Call dad", "I am hungry", "I am thirsty", "Help sit", "Help stand", "I need bed", "Clean me",
+            "Change clothes", "I want bath", "Brush teeth", "I need toilet", "Wash hands", "I am lost",
+            "Find my stuff", "I need glasses", "Read to me", "Write this", "I want outside", "Fresh air",
+            "I need pillow", "Adjust bed", "I feel pain", "Check me", "I need shot", "Take temperature",
+            "I want sleep", "Call someone", "I need hug", "I am fine", "Good morning", "Good night",
+            "See you later", "Come back", "I need you", "Stay safe", "Be careful", "I love you",
+            "Take care", "See doctor", "I need appointment", "Help call", "I want drink", "Something wrong"
+        ];
+        const wordList = Array.from(new Set(sentences.join(' ').toLowerCase().split(' '))).sort();
+
+        function showNotification(message) {
+            notification.textContent = message;
+            notification.classList.add('active');
+            setTimeout(() => {
+                notification.classList.remove('active');
+            }, 3000);
+        }
+
+        function hideAllSubKeyboards() {
+            Object.values(subKeyboards).forEach(kb => kb.classList.remove('active'));
+            activeSubKeyboard = null;
+            back.classList.remove('active');
+            predictiveText.classList.remove('active');
+        }
+
+        function syncCapsLock() {
+            Object.values(capsLocks).forEach(caps => {
+                if (isCaps) caps.classList.add('active');
+                else caps.classList.remove('active');
+            });
+        }
+
+        function handleBackspace() {
+            typingArea.value = typingArea.value.slice(0, -1);
+            updatePredictiveText();
+            typingArea.scrollTop = typingArea.scrollHeight;
+        }
+
+        function updatePredictiveText() {
+            const text = typingArea.value.toLowerCase().trim();
+            const lastWord = text.split(' ').pop();
+            let predictions = wordList.filter(word => word.startsWith(lastWord) && word !== lastWord);
+            if (predictions.length === 0 || lastWord === '') {
+                predictions = wordList.slice(0, 4);
+            }
+            predictions = predictions.slice(0, 4);
+            while (predictions.length < 4) {
+                predictions.push(wordList[Math.floor(Math.random() * wordList.length)]);
+            }
+            predictiveWords.forEach((btn, index) => {
+                btn.textContent = predictions[index] || '';
+            });
+        }
+
+        function selectPredictiveWord(word) {
+            const text = typingArea.value.trim();
+            const words = text.split(' ');
+            words.pop(); // Remove the incomplete word
+            words.push(word);
+            typingArea.value = words.join(' ') + ' ';
+            updatePredictiveText();
+            typingArea.scrollTop = typingArea.scrollHeight;
+        }
+
+        // Main keyboard button handlers
+        mainKeyboard.querySelectorAll('.key').forEach(key => {
+            key.addEventListener('click', () => {
+                const group = key.dataset.group;
+                const value = key.textContent.toLowerCase();
+                if (group) {
+                    hideAllSubKeyboards();
+                    subKeyboards[group].classList.add('active');
+                    activeSubKeyboard = group;
+                    mainKeyboard.style.display = 'none';
+                    back.classList.add('active');
+                    predictiveText.classList.add('active');
+                    updatePredictiveText();
+                } else if (value === 'space') {
+                    typingArea.value += ' ';
+                } else if (value === 'caps') {
+                    isCaps = !isCaps;
+                    syncCapsLock();
+                } else if (value === 'backspace') {
+                    handleBackspace();
+                }
+                typingArea.scrollTop = typingArea.scrollHeight;
+            });
+        });
+
+        // Sub-keyboard button handlers
+        Object.values(subKeyboards).forEach(subKeyboard => {
+            subKeyboard.querySelectorAll('.key').forEach(key => {
+                key.addEventListener('click', () => {
+                    const value = key.textContent.toLowerCase();
+                    if (value === 'space') {
+                        typingArea.value += ' ';
+                        updatePredictiveText();
+                    } else if (value === 'caps') {
+                        isCaps = !isCaps;
+                        syncCapsLock();
+                    } else if (value === 'backspace') {
+                        handleBackspace();
+                    } else if (value === 'send via message') {
+                        const message = typingArea.value.trim();
+                        if (message) {
+                            fetch('/api/send-message', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ message, type: 'sms' })
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    showNotification('Message sent via SMS');
+                                    typingArea.value = '';
+                                    updatePredictiveText();
+                                } else {
+                                    showNotification(`Error: ${data.message}`);
+                                }
+                            })
+                            .catch(error => {
+                                showNotification(`Error: ${error.message}`);
+                            });
+                        } else {
+                            showNotification('Please type a message first');
+                        }
+                    } else if (value === 'send via call') {
+                        const message = typingArea.value.trim();
+                        if (message) {
+                            fetch('/api/send-message', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ message, type: 'call' })
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    showNotification('Message sent via Call');
+                                    typingArea.value = '';
+                                    updatePredictiveText();
+                                } else {
+                                    showNotification(`Error: ${data.message}`);
+                                }
+                            })
+                            .catch(error => {
+                                showNotification(`Error: ${error.message}`);
+                            });
+                        } else {
+                            showNotification('Please type a message first');
+                        }
+                    } else {
+                        typingArea.value += isCaps ? value.toUpperCase() : value;
+                        updatePredictiveText();
+                    }
+                    typingArea.scrollTop = typingArea.scrollHeight;
+                });
+            });
+        });
+
+        // Predictive text handlers
+        predictiveWords.forEach(wordBtn => {
+            wordBtn.addEventListener('click', () => {
+                if (wordBtn.textContent) {
+                    selectPredictiveWord(wordBtn.textContent);
+                }
+            });
+        });
+
+        // Back button handler
+        back.addEventListener('click', () => {
+            hideAllSubKeyboards();
+            mainKeyboard.style.display = 'grid';
+        });
+
+        // Back to Menu button handler
+        backBtn.addEventListener('click', () => {
+            window.location.href = '/';
+        });
+
+        // Gaze tracking
+        function updateGaze(data) {
+            if (data.x !== null && data.y !== null) {
+                gazeIndicator.style.display = 'block';
+                gazeIndicator.style.left = `${data.x}px`;
+                gazeIndicator.style.top = `${data.y}px`;
+
+                if (data.dwell_progress > 0) {
+                    progressCircle.style.display = 'block';
+                    progressCircle.style.left = `${data.x}px`;
+                    progressCircle.style.top = `${data.y}px`;
+                    const offset = 100 - (data.dwell_progress * 100);
+                    progressRing.style.strokeDashoffset = offset;
+
+                    if (data.dwell_progress >= 1) {
+                        setTimeout(() => {
+                            progressCircle.style.display = 'none';
+                            const container = document.querySelector('.container');
+                            const rect = container.getBoundingClientRect();
+                            if (data.x >= rect.left && data.x <= rect.right && data.y >= rect.top && data.y <= rect.bottom) {
+                                const keys = (activeSubKeyboard ? subKeyboards[activeSubKeyboard] : mainKeyboard).querySelectorAll('.key');
+                                keys.forEach(key => {
+                                    const keyRect = key.getBoundingClientRect();
+                                    if (data.x >= keyRect.left && data.x <= keyRect.right && data.y >= keyRect.top && data.y <= keyRect.bottom) {
+                                        const value = key.textContent.toLowerCase();
+                                        const group = key.dataset.group;
+                                        if (activeSubKeyboard) {
+                                            if (value === 'space') {
+                                                typingArea.value += ' ';
+                                                updatePredictiveText();
+                                            } else if (value === 'caps') {
+                                                isCaps = !isCaps;
+                                                syncCapsLock();
+                                            } else if (value === 'backspace') {
+                                                handleBackspace();
+                                            } else if (value === 'send via message') {
+                                                const message = typingArea.value.trim();
+                                                if (message) {
+                                                    fetch('/api/send-message', {
+                                                        method: 'POST',
+                                                        headers: { 'Content-Type': 'application/json' },
+                                                        body: JSON.stringify({ message, type: 'sms' })
+                                                    })
+                                                    .then(response => response.json())
+                                                    .then(data => {
+                                                        if (data.success) {
+                                                            showNotification('Message sent via SMS');
+                                                            typingArea.value = '';
+                                                            updatePredictiveText();
+                                                        } else {
+                                                            showNotification(`Error: ${data.message}`);
+                                                        }
+                                                    })
+                                                    .catch(error => {
+                                                        showNotification(`Error: ${error.message}`);
+                                                    });
+                                                } else {
+                                                    showNotification('Please type a message first');
+                                                }
+                                            } else if (value === 'send via call') {
+                                                const message = typingArea.value.trim();
+                                                if (message) {
+                                                    fetch('/api/send-message', {
+                                                        method: 'POST',
+                                                        headers: { 'Content-Type': 'application/json' },
+                                                        body: JSON.stringify({ message, type: 'call' })
+                                                    })
+                                                    .then(response => response.json())
+                                                    .then(data => {
+                                                        if (data.success) {
+                                                            showNotification('Message sent via Call');
+                                                            typingArea.value = '';
+                                                            updatePredictiveText();
+                                                        } else {
+                                                            showNotification(`Error: ${data.message}`);
+                                                        }
+                                                    })
+                                                    .catch(error => {
+                                                        showNotification(`Error: ${error.message}`);
+                                                    });
+                                                } else {
+                                                    showNotification('Please type a message first');
+                                                }
+                                            } else {
+                                                typingArea.value += isCaps ? value.toUpperCase() : value;
+                                                updatePredictiveText();
+                                            }
+                                        } else if (group) {
+                                            hideAllSubKeyboards();
+                                            subKeyboards[group].classList.add('active');
+                                            activeSubKeyboard = group;
+                                            mainKeyboard.style.display = 'none';
+                                            back.classList.add('active');
+                                            predictiveText.classList.add('active');
+                                            updatePredictiveText();
+                                        } else if (value === 'space') {
+                                            typingArea.value += ' ';
+                                        } else if (value === 'caps') {
+                                            isCaps = !isCaps;
+                                            syncCapsLock();
+                                        } else if (value === 'backspace') {
+                                            handleBackspace();
+                                        }
+                                        typingArea.scrollTop = typingArea.scrollHeight;
+                                    }
+                                });
+
+                                // Check predictive words
+                                if (predictiveText.classList.contains('active')) {
+                                    predictiveWords.forEach(wordBtn => {
+                                        const wordRect = wordBtn.getBoundingClientRect();
+                                        if (data.x >= wordRect.left && data.x <= wordRect.right && data.y >= wordRect.top && data.y <= wordRect.bottom) {
+                                            if (wordBtn.textContent) {
+                                                selectPredictiveWord(wordBtn.textContent);
+                                            }
+                                        }
+                                    });
+                                }
+
+                                // Check back buttons
+                                const backRect = back.getBoundingClientRect();
+                                const backBtnRect = backBtn.getBoundingClientRect();
+                                if (data.x >= backRect.left && data.x <= backRect.right && data.y >= backRect.top && data.y <= backRect.bottom && back.classList.contains('active')) {
+                                    hideAllSubKeyboards();
+                                    mainKeyboard.style.display = 'grid';
+                                } else if (data.x >= backBtnRect.left && data.x <= backBtnRect.right && data.y >= backBtnRect.top && data.y <= backBtnRect.bottom) {
+                                    window.location.href = '/';
+                                }
+                            }
+                        }, 200);
+                    }
+                } else {
+                    progressCircle.style.display = 'none';
+                }
+            } else {
+                gazeIndicator.style.display = 'none';
+                progressCircle.style.display = 'none';
+            }
+        }
+
+        socket.on('gaze_update', (data) => {
+            requestAnimationFrame(() => updateGaze(data));
+        });
+    </script>
+</body>
+</html>
